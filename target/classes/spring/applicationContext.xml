@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:Context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+	http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
+	<!-- Properties -->
+	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>classpath*:config/configuration</value>
+			</list>
+		</property>
+	</bean>
+	<!-- Tasks -->
+	<bean id="taskController" class="com.sxy.graduwork.context.TaskController" scope="prototype"></bean>
+	<bean id="taskExecutor" class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor" scope="singleton">
+		<property name="corePoolSize" value="5"></property>
+		<property name="maxPoolSize" value="10"></property>
+		<property name="queueCapacity" value="25"></property>
+	</bean>
+	<!-- Datasource -->
+	<bean id="basicDataSource" class="org.apache.commons.dbcp2.BasicDataSource">
+		<property name="driverClassName" value="${dbcp.driverClassName}"></property>
+		<property name="url" value="${dbcp.url}"></property>
+		<property name="username" value="${dbcp.username}"></property>
+		<property name="password" value="${dbcp.password}"></property>
+		<property name="initialSize" value="${dbcp.initialSize}"></property>
+		<property name="maxTotal" value="${dbcp.maxTotal}"></property>
+		<property name="maxIdle" value="${dbcp.maxIdle}"></property>
+		<property name="minIdle" value="${dbcp.minIdle}"></property>
+	</bean>
+	<!-- Hibernate -->
+	<bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+		<property name="dataSource" ref="basicDataSource"></property>
+		<property name="mappingLocations">
+			<list>
+		    	<value>classpath:/com/sxy/graduwork/po/*.hbm.xml</value>	
+			</list>
+			</property>
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">
+					${hibernate.dialect}
+				</prop>
+				<prop key="hibernate.show_sql">
+					${hibernate.showSQL}
+				</prop>
+				<prop key="hibernate.cache.use_second_level_cache">
+					false
+				</prop>
+				<prop key="hibernate.cache.use_query_cache">
+					false
+				</prop>
+			</props>
+		</property>
+	</bean>
+	
+	<bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	<!-- <aop:config proxy-target-class="true">
+		<aop:advisor pointcut="execution(* com.sxy.graduwork.controller.*(..))"
+			advice-ref="txAdvice" />
+	</aop:config>
+
+	<tx:advice id="txAdvice" transaction-manager="transactionManager">
+		<tx:attributes>
+			<tx:method name="get*" read-only="true"
+				propagation="REQUIRED" />
+			<tx:method name="find*" read-only="true"
+				propagation="REQUIRED" />
+			<tx:method name="*" propagation="REQUIRED" />
+		</tx:attributes>
+	</tx:advice> -->
+	
+	
+</beans>
