@@ -1,10 +1,9 @@
 const c = require('./callJavaMethod').calljavamethod
 window.$ = window.jQuery = require('./js/vendor/jquery.min.js');
 function onBtnClick() {
-    debugger;
     c.call('method', {
         bean: 'testController',
-        method: 'work'
+        method: 'test'
     },(data) =>{
         
         document.getElementById('p').innerHTML = data

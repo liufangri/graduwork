@@ -62,8 +62,8 @@
 	<bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
 		<property name="sessionFactory" ref="sessionFactory"></property>
 	</bean>
-	<!-- <aop:config proxy-target-class="true">
-		<aop:advisor pointcut="execution(* com.sxy.graduwork.controller.*(..))"
+	<!-- <aop:config proxy-target-class="false">
+		<aop:advisor pointcut="execution(* com.sxy.graduwork.controller.TestController.work(..))"
 			advice-ref="txAdvice" />
 	</aop:config>
 

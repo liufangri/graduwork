@@ -1,5 +1,5 @@
 dbcp.driverClassName=org.h2.Driver
-dbcp.url=jdbc:h2:./db/application
+dbcp.url=jdbc:h2:classpath:db/application
 dbcp.username=sa
 dbcp.password=sa
 dbcp.initialSize=5

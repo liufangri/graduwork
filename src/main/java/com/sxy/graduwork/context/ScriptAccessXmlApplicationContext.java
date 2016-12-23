@@ -82,6 +82,7 @@ public class ScriptAccessXmlApplicationContext extends FileSystemXmlApplicationC
 
 			}
 			pt.addProperty("current_port", String.valueOf(port)).store();
+
 			try {
 				server = new ServerSocket(port);
 				serverState = SERVER_RUNNING;

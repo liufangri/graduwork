@@ -53,7 +53,7 @@ public class TaskController implements Runnable, ApplicationContextAware {
 	 * @param methodName
 	 * @return
 	 */
-	public int invokeMethod(String beanName, String methodName, StringBuffer sb) {
+	public synchronized int invokeMethod(String beanName, String methodName, StringBuffer sb) {
 		Object bean = applicationContext.getBean(beanName);
 		if (bean == null) {
 			return INVOKE_ERROR_NO_SUCH_BEAN;
@@ -93,7 +93,7 @@ public class TaskController implements Runnable, ApplicationContextAware {
 	 * @param paramMap
 	 * @return
 	 */
-	public int invokeMethod(String beanName, String methodName, StringBuffer sb, Map<String, String> paramMap) {
+	public synchronized int invokeMethod(String beanName, String methodName, StringBuffer sb, Map<String, String> paramMap) {
 		Object bean = applicationContext.getBean(beanName);
 		if (bean == null) {
 			return INVOKE_ERROR_NO_SUCH_BEAN;
@@ -148,7 +148,7 @@ public class TaskController implements Runnable, ApplicationContextAware {
 		return "Unkown request.";
 	}
 
-	public void run() {
+	public synchronized void run() {
 		if (requestInfo != null) {
 			String result = service(this.requestInfo);
 			try {
