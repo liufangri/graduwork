@@ -1,3 +1,0 @@
-2016-12-23 12:26:44 jdbc[7]: exception
-org.h2.jdbc.JdbcSQLException: Table "TEST" not found; SQL statement:
-select test0_.id as id1_0_, test0_.name as name2_0_ from TEST test0_ where test0_.id='1' [42102-193]
