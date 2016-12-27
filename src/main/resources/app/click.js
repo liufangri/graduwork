@@ -2,7 +2,7 @@ const c = require('./callJavaMethod').calljavamethod
 window.$ = window.jQuery = require('./js/vendor/jquery.min.js');
 function onBtnClick() {
     c.call('method', {
-        bean: 'testController',
+        bean: 'testService',
         method: 'test'
     },(data) =>{
         
@@ -12,10 +12,10 @@ function onBtnClick() {
 
 function onBtnClick2() {
     c.call('method', {
-        bean: 'testController',
-        method: 'work'
+        bean: 'testService',
+        method: 'addTest'
     },(data) =>{
-        document.getElementById('p2').innerHTML = JSON.parse(data).res
+        document.getElementById('p2').innerHTML = data
     })
 }
 function clearall() {
@@ -25,3 +25,14 @@ function clearall() {
     p2.innerHTML = ''
 }
 
+function onBtnClick3() {
+    c.call('method', {
+        bean: 'indexTest',
+        method: 'getContent',
+        params:{
+            url : 'http://dl.acm.org/'
+        }
+    },(data) =>{
+        document.getElementById('p2').innerHTML = data
+    })
+}

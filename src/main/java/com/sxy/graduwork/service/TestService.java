@@ -1,8 +1,8 @@
-package com.sxy.graduwork.controller;
+package com.sxy.graduwork.service;
 
 import java.util.List;
+import java.util.UUID;
 
-import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -10,7 +10,7 @@ import org.hibernate.SessionFactory;
 import com.sxy.graduwork.po.Test;
 import com.sxy.graduwork.tools.JSONTool;
 
-public class TestController {
+public class TestService {
 	private SessionFactory sessionFactory;
 
 	public void setSessionFactory(SessionFactory sessionFactory) {
@@ -19,19 +19,13 @@ public class TestController {
 
 	private Session currentSession() {
 		Session session = null;
-		try {
-			session = sessionFactory.getCurrentSession();
-			return session;
+		session = sessionFactory.getCurrentSession();
+		return session;
 
-		} catch (HibernateException e) {
-			session = sessionFactory.openSession();
-			return session;
-		}
 	}
 
 	@SuppressWarnings("unchecked")
 	public String work() {
-
 		Session session = currentSession();
 		Query query = session.createQuery("select e from Test e where e.id = '1'");
 		List<Test> tests = (List<Test>) query.list();
@@ -41,11 +35,18 @@ public class TestController {
 
 	@SuppressWarnings("unchecked")
 	public String test() {
-
 		Session session = currentSession();
-		Query query = session.createQuery("select e from Test e where e.id = '1'");
+		Query query = session.createQuery("select e from Test e");
 		List<Test> tests = (List<Test>) query.list();
-		Test test = tests.get(0);
-		return JSONTool.parseJSON(test);
+		return JSONTool.parseJSON(tests);
+	}
+
+	public String addTest() {
+		Session session = currentSession();
+		Test test = new Test();
+		test.setId(UUID.randomUUID().toString());
+		test.setName("123");
+		session.save(test);
+		return "{\"resData\":\"Save OK.\"}";
 	}
 }

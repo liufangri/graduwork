@@ -67,4 +67,8 @@ public class TestClass {
 		System.out.println(JSONTool.parseJSON(c));
 		// System.out.println(JSONTool.parseJSON(b));
 	}
+
+	public void testLog() {
+
+	}
 }

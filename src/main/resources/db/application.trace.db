@@ -1,0 +1,65 @@
+2016-12-25 15:50:34 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "ALTER TABLE TEST ADD ID VARCHAR(40) PRIMARY[*] KEY "; SQL statement:
+alter table test add id varchar(40) primary key [42000-193]
+2016-12-25 15:51:40 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "ALTER TABLE TEST ADD ID VARCHAR(40) PRIMARY[*] KEY "; SQL statement:
+alter table test add id varchar(40) primary key [42000-193]
+2016-12-25 15:54:18 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "ALTER TABLE TEST ADD PRIMARY KEY ID[*] "; expected "HASH, ("; SQL statement:
+alter table test add primary key id [42001-193]
+2016-12-25 15:54:28 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "ALTER TABLE TEST ADD PRIMARY KEY ID_1[*] ID "; expected "HASH, ("; SQL statement:
+alter table test add primary key id_1 id [42001-193]
+2016-12-25 15:54:38 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "ALTER TABLE TEST ADD PRIMARY KEY ID[*] ID_1 "; expected "HASH, ("; SQL statement:
+alter table test add primary key id id_1 [42001-193]
+2016-12-25 15:55:46 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Column "ID" must not be nullable; SQL statement:
+alter table test add primary key (id) [90023-193]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:345)
+	at org.h2.message.DbException.get(DbException.java:179)
+	at org.h2.message.DbException.get(DbException.java:155)
+	at org.h2.mvstore.db.MVTable.addIndex(MVTable.java:474)
+	at org.h2.command.ddl.AlterTableAddConstraint.tryUpdate(AlterTableAddConstraint.java:147)
+	at org.h2.command.ddl.AlterTableAddConstraint.update(AlterTableAddConstraint.java:77)
+	at org.h2.command.CommandContainer.update(CommandContainer.java:98)
+	at org.h2.command.Command.executeUpdate(Command.java:258)
+	at org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:184)
+	at org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:158)
+	at org.h2.server.web.WebApp.getResult(WebApp.java:1380)
+	at org.h2.server.web.WebApp.query(WebApp.java:1053)
+	at org.h2.server.web.WebApp$1.next(WebApp.java:1015)
+	at org.h2.server.web.WebApp$1.next(WebApp.java:1002)
+	at org.h2.server.web.WebThread.process(WebThread.java:164)
+	at org.h2.server.web.WebThread.run(WebThread.java:89)
+	at java.lang.Thread.run(Unknown Source)
+2016-12-25 15:56:32 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "ALTER TABLE TEST ADD NOT[*] NULL (ID) "; expected "identifier"; SQL statement:
+alter table test add not null (id) [42001-193]
+2016-12-25 15:56:48 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "ALTER TABLE TEST NOT[*] NULL (ID) "; expected "., ADD, SET, RENAME, DROP, CHANGE, MODIFY, ALTER"; SQL statement:
+alter table test not null (id) [42001-193]
+2016-12-25 15:57:18 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "ALTER TABLE DROP COLUMN[*] ID "; expected "., ADD, SET, RENAME, DROP, CHANGE, MODIFY, ALTER"; SQL statement:
+alter table drop column id [42001-193]
+2016-12-25 15:57:42 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "ALTER TABLE DROP  ID[*] "; expected "., ADD, SET, RENAME, DROP, CHANGE, MODIFY, ALTER"; SQL statement:
+alter table drop  id [42001-193]
+2016-12-25 15:58:20 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "ALTER TABLE ADD ID[*] VARCHAR(40) NOT NULL "; expected "., ADD, SET, RENAME, DROP, CHANGE, MODIFY, ALTER"; SQL statement:
+alter table add id varchar(40) not null [42001-193]
+2016-12-25 15:58:44 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "ALTER TABLE ADD ID[*] VARCHAR(40) "; expected "., ADD, SET, RENAME, DROP, CHANGE, MODIFY, ALTER"; SQL statement:
+alter table add id varchar(40) [42001-193]
+2016-12-25 15:58:49 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "ALTER TABLE ADD COLUMN[*] ID VARCHAR(40) "; expected "., ADD, SET, RENAME, DROP, CHANGE, MODIFY, ALTER"; SQL statement:
+alter table add column id varchar(40) [42001-193]
+2016-12-25 16:01:08 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "CREATE TABEL[*] TEST (
+ ID VARCHAR(40) NOT NULL PRIMARY KEY,
+NAME VARCHAR(40)
+) "; expected "OR, FORCE, VIEW, ALIAS, SEQUENCE, USER, TRIGGER, ROLE, SCHEMA, CONSTANT, DOMAIN, TYPE, DATATYPE, AGGREGATE, LINKED, MEMORY, CACHED, LOCAL, GLOBAL, TEMP, TEMPORARY, TABLE, PRIMARY, UNIQUE, HASH, SPATIAL, INDEX"; SQL statement:
+create tabel test (
+ id varchar(40) not null primary key,
+name varchar(40)
+) [42001-193]
