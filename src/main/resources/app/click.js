@@ -27,7 +27,7 @@ function clearall() {
 
 function onBtnClick3() {
     c.call('method', {
-        bean: 'indexTest',
+        bean: 'indexService',
         method: 'getContent',
         params:{
             url : 'http://dl.acm.org/'

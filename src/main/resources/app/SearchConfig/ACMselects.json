@@ -1,0 +1,60 @@
+{
+    "select1": [
+        {
+            "name": "Any field",
+            "value": ""
+        },
+        {
+            "name": "Title",
+            "value": "acmdlTitle:"
+        },
+        {
+            "name": "Author",
+            "value": "persons.authors.personName:"
+        },
+        {
+            "name": "Abstract",
+            "value": "recordAbstract:"
+        },
+        {
+            "name": "Publication year",
+            "value": "publicationYear:"
+        },
+        {
+            "name": "Full-text",
+            "value": "content.ftsec:"
+        }
+    ],
+    "select2": [
+        {
+            "name": "matches all",
+            "value": "+"
+        },
+        {
+            "name": "matches any",
+            "value": ""
+        },
+        {
+            "name": "matches none",
+            "value": "-"
+        }
+    ],
+    "select3": [
+        {
+            "name": "is in the range",
+            "value" : "btw"
+        },
+        {
+            "name": "is equal to",
+            "value" : "="
+        },
+        {
+            "name": "on or before(<=)",
+            "value" : "<"
+        },
+        {
+            "name": "on or after(>=)",
+            "value" : ">"
+        }
+    ]
+}

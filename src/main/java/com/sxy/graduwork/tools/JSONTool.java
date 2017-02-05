@@ -121,7 +121,9 @@ public class JSONTool {
 					e.printStackTrace();
 					continue;
 				}
-				sb.append("\"" + fieldName + "\":" + "\"" + value.toString() + "\",");
+				if (value != null) {
+					sb.append("\"" + fieldName + "\":" + "\"" + parseJSON(value) + "\",");
+				}
 			}
 			if (sb.charAt(sb.length() - 1) == ',') {
 				sb.deleteCharAt(sb.length() - 1);

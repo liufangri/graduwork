@@ -9,4 +9,5 @@
 	default-autowire="byName">
 	<bean id="testService" class="com.sxy.graduwork.service.TestService"></bean>
 	<bean id="indexService" class="com.sxy.graduwork.service.IndexService"></bean>	
+	<bean id="acmService" class="com.sxy.graduwork.service.ACMService"></bean>
 </beans>

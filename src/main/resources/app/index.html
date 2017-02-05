@@ -14,42 +14,58 @@
     </div>-->
   <div class="bodyzone">
     <ul class="bodylist">
-      <li id="main" class="active"><a  href="javascript:void(0)"><span class="fui-home"></span>主页</a></li>
-      <li id="list"><a href="javascript:void(0)"><span class="fui-list-columned"></span>列表</a></li>
-      <li id="search"><a href="javascript:void(0)"><span class="fui-search"></span>检索</a></li>
-      <li id="other"><a href="javascript:void(0)"><span class="fui-info-circle"></span>...</a></li>
+      <li id="main" class="active"><a  ><span class="fui-home"></span>主页</a></li>
+      <li id="list"><a ><span class="fui-list-columned"></span>列表</a></li>
+      <li id="search"><a ><span class="fui-search"></span>检索</a></li>
+      <li id="other"><a ><span class="fui-info-circle"></span>...</a></li>
     </ul>
   </div>
 </div>
-<div class="mainview" hidden="true">
-  <!--<button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
-  </button>-->
-  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-            &times;
-          </button>
-          <h4 class="modal-title" id="myModalLabel">
-            标题
-          </h4>
+ <!--<div class="mainview" hihidden="true">
+  
+  
+</div>-->
+<!-- ACM检索配置模态框 -->
+<div class="modal fade" id="ACMConfigModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog" style="width: 1000px">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+          &times;
+        </button>
+        <h4 class="modal-title" id="myModalLabel">
+          ACM高级检索
+        </h4>
+      </div>
+      <div id="modal_main" class="modal-body">
+        <p id="pre_selects" data-next-index="0">Select from ACM Full-Text Collection</p>
+        <div id="selects" class="modal-main-acm">
         </div>
-        <div class="modal-body">
-          内容
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">关闭
-          </button>
-          <button type="button" class="btn btn-primary">
-            确定
-          </button>
+        <!--<div id="wrp_0">
+          <label>Where</label> 
+          <select id="select1_0"></select>
+          <select id="select2_0"></select>
+            of the following words or phrases:
+            <input type="text"/>
+          <button id="add_wrp_0" ><span class="glyphicon glyphicon-plus"></span></button>
+        </div>-->
+        <div id="after_selets" style="clear: both">
+          <input type="text" id="dte" hidden>
+          <input type="text" id="bfr" hidden>
         </div>
       </div>
-      <!-- /.modal-content -->
+      <div class="modal-footer" style="clear: left">
+        <button type="button" class="btn btn-default" data-dismiss="modal">
+          关闭
+        </button>
+        <button type="button" class="btn btn-primary" onclick="createQueryString()">
+          确定
+        </button>
+      </div>
     </div>
-  <!-- /.modal -->
+      <!-- /.modal-content -->
   </div>
+  <!-- /.modal -->
 </div>
 <!--<iframe id="viewpage" class="mainframe" src="./mainpage/mainpage.html"></iframe>-->
 
@@ -57,6 +73,7 @@
 
 <!-- page:main -->
 <div id="mainpage" class="container mainview" >
+ 
 <h2>mainpage</h2>
 <p id="p"></p>
 <button onclick="onBtnClick()" class="btn btn-default">click</button>
@@ -68,22 +85,220 @@
 </div>
 <!-- page:list -->
 <div id="listpage"  class="mainview" hidden>
-<h2>listpage</h2>
+<table >
+  <tr>
+    <td>ACM</td>
+    <td>
+      <button onclick="" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#ACMConfigModal">
+        检索配置</button>
+    </td>
+    <td>
+      <div class="dropdown">
+        <button style="background-color: #f0f0f0;color: #888888"
+         class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">
+          <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+          <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Action</a></li>
+          <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Another action</a></li>
+          <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Something else here</a></li>
+          <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Separated link</a></li>
+        </ul>
+      </div>
+
+    </td>
+  </tr>
+
+</table>
 </div>
 <!-- page:search -->
 <div id="searchpage" class="mainview" hidden>
-<h2>searchpage</h2>
+  
 </div>
 <script>
   window.$ = window.jQuery = require('./js/vendor/jquery.min.js');
+  var fs = require('fs');
+  var acmSelectsFile = fs.readFileSync('./SearchConfig/ACMselects.json', 'utf-8');
+  var acmSelectsData = JSON.parse(acmSelectsFile);
   $("ul.bodylist li").on('click',(e)=>{
     $("ul.bodylist li").removeClass('active');
     $(".mainview").hide();
     e.currentTarget.setAttribute('class','active');
     var id = e.currentTarget.getAttribute('id');
     $("#"+id+"page").show();
-  })
+  });
+  var pre_selects = $("#pre_selects");
+  var index = pre_selects.attr("data-next-index");
+  var origin = createFilter(index);
+  pre_selects.attr("data-next-index", ++index);
+  $("#selects").append(origin);
+  initSearchGroup(index-1);
+  
 
+  function initSearchGroup (index){
+    var acm = fs.readFileSync('./SearchConfig/ACMselects.json', 'utf-8');
+    var data = JSON.parse(acm);
+    var str = '';
+    for(var i in data){
+      var select = document.getElementById(i + '_' + index);
+      if(select !== null){
+        var _select = data[i];
+        var _str = '';
+        for(var j in _select){
+          _str += '<option value=\"' +_select[j].value + '\">' + _select[j].name + '</option>';
+        }
+        str+=_str;
+        select.innerHTML = _str;
+      }
+    }
+  }
+
+  function createFilter(index){
+    return '<div id=\"wrp_' + index + '\" > '+
+        '<div id=\"select1_left_' + index + '\" class="wrp"> '+
+          '<label>Where</label> '+
+          '<select id=\"select1_' + index + '\" onchange=\"select1Change(this.selectedIndex, ' + index + ')\"></select> '+
+        '</div>'+
+        '<div id=\"select1_right1_' + index + '\" class="wrp"> '+
+          '<select id=\"select2_' + index + '\"></select> '+
+          ' of the following words or phrases: '+
+          '<input id=\"wrp_input_'+ index + '\" type=\"text\"/> '+
+        '</div>'+
+        '<div id="buttons" class="wrp">'+
+          (index == 0?'':'<button id=\"delete_wrp_' + index + '\" onclick=\"deleteFilter(' + index  + ');\"><span class=\"glyphicon glyphicon-minus\"></span></button>') +
+          '<button id=\"add_wrp_' + index + '\" onclick=\"addFilter('+index+');\"><span class=\"glyphicon glyphicon-plus\"></span></button>'+
+        '</div>'+
+        '<div style="clear: both; margin: 0px"/>'+
+      '</div>'
+      
+      ;
+  }
+
+  function createYearSelect(index){
+    return '<div id=\"select1_right2_' + index + '\">' +
+      '<div class="wrp">'+
+        '<select id=\"select3_'+index+'\" onchange=\"select3Change(this.selectedIndex, ' + index + ')\"></select>'+
+        '<select id=\"years1_'+index+'\" onchange=\"years1Change(this.options[this.selectedIndex].text, '+ index +')\" style="margin-left: 4px; margin-right: 4px"></select>'+
+      '</div>'+
+      '<div id=\"years_right_'+index+'\" class="wrp">' +
+        ' to '+
+        '<select id=\"years2_'+index+'\" onchange=\"years2Change(this.options[this.selectedIndex].text, '+ index +')\"></select>' +
+      '</div>' +
+      '<input type=\"text\" id=\"dte_' + index + '\" hidden=\"true\">'+
+      '<input type=\"text\" id=\"bfr_' + index + '\" hidden=\"true\">'+
+    '</div>';
+
+  }
+  function addFilter(index){
+    var _index = $("#pre_selects").attr("data-next-index");
+    var divBlock = createFilter(_index);
+    $("#wrp" + "_" + index).after(divBlock);
+    initSearchGroup(_index);
+    $("#pre_selects").attr("data-next-index", ++_index);
+  }
+
+  function deleteFilter(index){
+    $("#wrp" + "_" + index).remove();
+  }
+
+  function select1Change(selected, index){
+    if(acmSelectsData.select1[selected].name == 'Publication year'){
+      $("#select1_right1_" + index).hide();
+      var right2 = createYearSelect(index);
+      $("#select1_left_" + index).after(right2);
+      initYears(index);
+    }else{
+      $("#select1_right1_" + index).show();
+      $("#select1_right2_" + index).remove();
+    }
+  }
+  function select3Change(selected, index){
+    if(acmSelectsData.select3[selected].name != 'is in the range'){
+      $("#years_right_" + index).hide();
+      if(acmSelectsData.select3[selected].value == '='){
+        $("#dte").val($("#years1_" + index).val());
+        $("#bfr").val($("#years1_" + index).val());
+      }else if(acmSelectsData.select3[selected].name == '<'){
+        $("#dte").val('');
+        $("#bfr").val($("#years1_" + index).val());
+      }else if(acmSelectsData.select3[selected].name == '>'){
+        $("#dte").val($("#years1_" + index).val());
+        $("#bfr").val('');
+      }
+    }else{
+      $("#years_right_" + index).show();
+      $("#dte").val($("#years1_" + index).val());
+      $("#bfr").val($("#years2_" + index).val());
+    }
+  }
+
+  function initYears(index){
+    var select3 = acmSelectsData.select3;
+    for(var i in select3){
+      $("#select3_" + index).append('<option value=\"'+select3[i].value+'\">'+select3[i].name+'</option>')
+    }
+    var date = new Date();
+    var currentYear = date.getFullYear();
+    $("#dte").val(1947);
+    $("#bfr").val(currentYear);
+    for(var i = 1947 ; i<=currentYear;i++){
+      $("#years1_" + index).append('<option value=\"'+i+'\">'+i+'</option>');
+      var y = currentYear - i + 1947;
+      $("#years2_" + index).append('<option value=\"'+ y+'\">'+y+'</option>');
+    }
+    
+  }
+
+
+  function createQueryString(){
+    var length = $("#pre_selects").attr("data-next-index");
+    var queryString = '';
+    var filterNum = 0;
+    for(var i = 0; i<length ; i++){
+      var wrp = $("#wrp_" + i);
+      if(wrp == null){
+        alert("No." + length + " doesn't exist!");
+      }else{
+        var select1Value = $("#select1_" + i ).val();
+        if(select1Value == acmSelectsData.select1[4].value){
+
+        }else{
+          var select2Value = $("#select2_" + i).val();
+          var inputValue = $("#wrp_input_" + i).val();
+          queryString += (filterNum++ > 0 ? ' AND ' : '') + select1Value + '(' + select2Value +  inputValue +  ') ';
+
+        }
+      }
+
+    }
+    alert(queryString);
+    return queryString;
+  }
+
+
+  function years1Change(year1Value , index){
+    var select3Value = $("#select3_" + index).val();
+    var year2Value = $("#years2_" + index).val();
+    if(select3Value == 'btw'){
+      var year1 = $("#dte").val();
+      if(year1 < year1Value){
+        $("#dte").val(year1);
+      }
+    }else if(select3Value == '='){
+      $("#dte").val(year1Value);
+      $("#bfr").val(year1Value);
+    }else if(select3Value == '<'){
+      $("#dte").val('');
+      $("#bfr").val(year1Value);
+    }else if(select3Value == '>'){
+      $("#dte").val(year1Value);
+      $("#bfr").val('');
+    }
+  }
+
+  function years2Change(year2Value, index){
+    $("#bfr").val(year2Value);
+  }
 </script>
 <script src="click.js"></script>
 <script src="./js/bootstrap.js"></script>

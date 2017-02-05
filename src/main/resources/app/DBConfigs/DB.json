@@ -1,12 +1,8 @@
 [
 	{
-		"DBName":"ACM Digital Library",
+		"DBRName":"ACM Digital Library",
 		"shortName":"ACM",
-		"indexURL":"http://dl.acm.org/"
-	},
-	{
-		"DBName":"ACM Digital Library",
-		"shortName":"ACM",
-		"indexURL":"http://dl.acm.org/"
+		"host":"dl.acm.org",
+		"pageSize":"20"
 	}
 ]
