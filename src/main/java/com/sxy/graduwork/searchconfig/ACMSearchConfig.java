@@ -15,7 +15,7 @@ public class ACMSearchConfig extends BasicSearchConfig {
 	 * 
 	 * @return
 	 */
-	public String toQueryString() {
+	public String toACMQueryString() {
 		StringBuffer sb = new StringBuffer();
 		sb.append("");
 		if (this.isAnyFieldNotEnmpty()) {

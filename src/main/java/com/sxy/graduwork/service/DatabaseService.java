@@ -4,6 +4,13 @@ import java.io.File;
 
 public abstract class DatabaseService {
 	/**
+	 * Prepare before accessing database.
+	 */
+	public void prepare() {
+		// TODO: 一般的工作
+	}
+
+	/**
 	 * Get Endnote file from a database site.
 	 * 
 	 * @return file

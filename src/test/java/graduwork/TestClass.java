@@ -7,6 +7,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.junit.Test;
+
 import com.sxy.graduwork.tools.JSONTool;
 import com.sxy.graduwork.tools.NetTool;
 import com.sxy.graduwork.tools.PropertiesTool;
@@ -69,6 +71,15 @@ public class TestClass {
 	}
 
 	public void testLog() {
+
+	}
+
+	@Test
+	public void testSystemUserDir() {
+		// File file = new
+		// File(this.getClass().getClassLoader().getResource("app\\DBConfigs\\DB.json").toURI());
+		String path = this.getClass().getClassLoader().getResource(".").getPath();
+		System.out.println(path);
 
 	}
 }
