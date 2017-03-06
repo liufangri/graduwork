@@ -103,6 +103,16 @@ public class ScriptAccessXmlApplicationContext extends FileSystemXmlApplicationC
 
 	public synchronized int startListen() {
 		if (listenState == LISTEN_STOPED) {
+			// String prepath =
+			// this.getClassLoader().getResource(".").getPath().substring(1);
+			// try {
+			// Runtime.getRuntime().exec(new String[] {
+			// "C:\\Users\\sxy90\\AppData\\Roaming\\npm\\electron.cmd", "." },
+			// null,
+			// new File(prepath + "app"));
+			// } catch (IOException e1) {
+			// e1.printStackTrace();
+			// }
 
 			Socket socket = null;
 			listenState = LISTEN_RUNNING;

@@ -62,6 +62,7 @@ public class NetTest {
 		jsonList = gson.fromJson(json, List.class);
 	}
 
+	@Test
 	public void testConnection() {
 		URI uri;
 		try {
@@ -77,7 +78,7 @@ public class NetTest {
 
 			HttpEntity entity = response.getEntity();
 			if (entity != null) {
-				String htmlContent = saveHtml(entity, "C:\\Users\\Y400\\Desktop\\AMC.html");
+				String htmlContent = saveHtml(entity, "C:\\Users\\sxy90\\Desktop\\AMC.html");
 				Document document = Jsoup.parse(htmlContent);
 				Element e = document.getElementById("port");
 				Element home = e.child(1);
@@ -94,7 +95,7 @@ public class NetTest {
 							"Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36");
 					response = httpClient.execute(httpGet2);
 					entity = response.getEntity();
-					String htmlContent2 = saveHtml(entity, "C:\\Users\\Y400\\Desktop\\AMCSearch.html");
+					String htmlContent2 = saveHtml(entity, "C:\\Users\\sxy90\\Desktop\\AMCSearch.html");
 
 				}
 
@@ -108,7 +109,7 @@ public class NetTest {
 			httpGet2.setHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36");
 			response = httpClient.execute(httpGet2);
 			entity = response.getEntity();
-			String htmlContent2 = saveHtml(entity, "C:\\Users\\Y400\\Desktop\\ACMResult.html");
+			String htmlContent2 = saveHtml(entity, "C:\\Users\\sxy90\\Desktop\\ACMResult.html");
 
 			response.close();
 
@@ -145,7 +146,7 @@ public class NetTest {
 
 	public void testResult() throws IOException {
 		testConnection();
-		String htmlContent = getHtmlContent("C:\\Users\\Y400\\Desktop\\ACMResult.html");
+		String htmlContent = getHtmlContent("C:\\Users\\sxy90\\Desktop\\ACMResult.html");
 		Document document = Jsoup.parse(htmlContent);
 		Element results = document.getElementById("results");
 		List<String> URLlist = new ArrayList<String>();
@@ -169,7 +170,7 @@ public class NetTest {
 			httpGet.setHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36");
 			CloseableHttpResponse response = client.execute(httpGet);
 			HttpEntity entity = response.getEntity();
-			saveHtml(entity, "C:\\Users\\Y400\\Desktop\\ACMArtical.html");
+			saveHtml(entity, "C:\\Users\\sxy90\\Desktop\\ACMArtical.html");
 
 		} catch (URISyntaxException e1) {
 			e1.printStackTrace();
@@ -194,11 +195,11 @@ public class NetTest {
 
 	// [host/]downformats.cfm?id=2911184&parent_id=2911172&expformat=endnotes&CFID=704006689&CFTOKEN=26722465
 	// https://dl.acm.org/purchase.cfm?id=162887&CFID=885130552&CFTOKEN=31047748
-	@Test
+
 	public void getEndnote() throws FileNotFoundException, IOException {
 		testResult();
 		String host = "dl.acm.org";
-		String htmlcontent = getHtmlContent("C:\\Users\\Y400\\Desktop\\ACMArtical.html");
+		String htmlcontent = getHtmlContent("C:\\Users\\sxy90\\Desktop\\ACMArtical.html");
 		Document document = Jsoup.parse(htmlcontent);
 		Elements elements = document.getElementsByAttributeValue("name", "citation_doi");
 		Element element = elements.first();
@@ -230,7 +231,7 @@ public class NetTest {
 			get.setHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36");
 			CloseableHttpResponse response = client.execute(get);
 			HttpEntity entity = response.getEntity();
-			saveHtml(entity, "C:\\Users\\Y400\\Desktop\\pdfpage.html");
+			saveHtml(entity, "C:\\Users\\sxy90\\Desktop\\pdfpage.html");
 
 		} catch (URISyntaxException e) {
 			e.printStackTrace();

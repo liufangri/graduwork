@@ -1,4 +1,3 @@
-const c = require('./callJavaMethod').calljavamethod
 window.$ = window.jQuery = require('./js/vendor/jquery.min.js');
 function onBtnClick() {
     c.call('method', {
@@ -35,4 +34,26 @@ function onBtnClick3() {
     },(data) =>{
         document.getElementById('p2').innerHTML = data
     })
+}
+
+function onBtnClick4(){
+    c.call('method',{
+        bean: 'acmService',
+        method:'test'
+    },(data)=>{
+        document.getElementById('p').innerHTML = data
+    }
+
+    )
+}
+
+function onBtnClick5(){
+    c.call('method',{
+        bean: 'databaseServiceManager',
+        method:'test'
+    },(data)=>{
+        document.getElementById('p').innerHTML = data
+    }
+
+    )
 }

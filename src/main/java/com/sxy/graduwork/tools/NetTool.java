@@ -38,28 +38,36 @@ public class NetTool {
 		}
 	}
 
+
 	/**
 	 * Get a parameter from a URL, if this URL doesn't contain this parameter,
-	 * return <code>null</code>.
+	 * return empty string.
 	 * 
 	 * @param url
 	 * @param paramName
-	 * @return This parameter value or <code>null</code> if this parameter
-	 *         doesn't exsit.
+	 * @return This parameter value or empty string if this parameter doesn't
+	 *         exist.
 	 */
+
 	public static String getUrlParameter(String url, String paramName) {
 		int pos1 = url.indexOf(paramName);
 		if (pos1 == -1) {
 			return null;
 		}
-		int pos2 = url.substring(pos1, url.length()).indexOf("&");
-		if (pos2 == -1) {
-			pos2 = url.length();
-		} else {
-			pos2 += pos1;
+		char[] b = new char[512];
+		int i = pos1, j = 0;
+
+		while (i < url.length() && url.charAt(i) != '=') {
+			i += 1;
 		}
-		String result = url.substring(pos1 + paramName.length() + 1, pos2);
-		return result;
+		i += 1;
+		while (i < url.length() && url.charAt(i) != '&') {
+			b[j] = url.charAt(i);
+			j += 1;
+			i += 1;
+		}
+		String str = new String(b);
+		return str.trim();
 	}
 
 	/**

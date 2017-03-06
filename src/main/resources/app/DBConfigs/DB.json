@@ -3,6 +3,9 @@
 		"DBRName":"ACM Digital Library",
 		"shortName":"ACM",
 		"host":"dl.acm.org",
-		"pageSize":"20"
+		"pageSize":"20",
+		"scheme":"http",
+		"resultPath":"/results.cfm",
+		"serviceID":"acmService"
 	}
 ]

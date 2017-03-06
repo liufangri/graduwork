@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="com.sxy.graduwork.po.SearchConfig" table="SEARCH_CONFIG">
+		<id name="id" type="string">
+			<column name="id"></column>
+		</id>
+		<property name="checkedDatabase" type="string">
+			<column name="CHECKED_DATABASE"></column>
+		</property>
+		<property name="configJson" type="string">
+			<column name="CONFIG_JSON"></column>
+		</property>
+		<property name="schedulePattern" type="string">
+			<column name="SCHEDULE_PATTERN "></column>
+		</property>
+		<property name="createTime" type="java.sql.Timestamp">
+			<column name="CREATE_TIME"></column>
+		</property>
+	</class>
+</hibernate-mapping>

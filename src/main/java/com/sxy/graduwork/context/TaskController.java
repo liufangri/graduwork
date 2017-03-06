@@ -17,7 +17,7 @@ import com.sxy.graduwork.tools.RequestParser;
 /**
  * Controls the events called by View
  * 
- * @author Y400
+ * @author sunxiaoyu
  *
  */
 public class TaskController implements Runnable, ApplicationContextAware {

@@ -9,7 +9,6 @@ calljavamethod.call = function (kind, data, method) {
     var client = new net.Socket()
     var result = 'Failed'
     client.connect(PORT, HOST, () => {
-        console.log('connect to ' + HOST + ':' + PORT)
         if (kind == 'method') {
             var message = '@method:' + data.bean + '!' + data.method;
             if (data.params != undefined) {
@@ -32,7 +31,7 @@ calljavamethod.call = function (kind, data, method) {
         client.destroy()
     })
     client.on('close', () => {
-        console.log('Connect closed successfully')
+        
     })
     client.on('error', (data) => {
         console.log('error:' + data.message)

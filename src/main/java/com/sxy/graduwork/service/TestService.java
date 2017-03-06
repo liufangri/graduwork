@@ -7,8 +7,8 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
+import com.google.gson.Gson;
 import com.sxy.graduwork.po.Test;
-import com.sxy.graduwork.tools.JSONTool;
 
 public class TestService {
 	private SessionFactory sessionFactory;
@@ -30,7 +30,7 @@ public class TestService {
 		Query query = session.createQuery("select e from Test e where e.id = '1'");
 		List<Test> tests = (List<Test>) query.list();
 		Test test = tests.get(0);
-		return JSONTool.parseJSON(test);
+		return new Gson().toJson(test);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -38,7 +38,7 @@ public class TestService {
 		Session session = currentSession();
 		Query query = session.createQuery("select e from Test e");
 		List<Test> tests = (List<Test>) query.list();
-		return JSONTool.parseJSON(tests);
+		return new Gson().toJson(tests);
 	}
 
 	public String addTest() {

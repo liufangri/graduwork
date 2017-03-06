@@ -67,16 +67,20 @@
 	<tx:advice id="txAdvice" transaction-manager="transactionManager">
 		<tx:attributes>
 			<tx:method name="add*" propagation="REQUIRED"/>
+			<tx:method name="save*" propagation="REQUIRED"/>
 			<tx:method name="del*" propagation="REQUIRED"/>
 			<tx:method name="modify*" propagation="REQUIRED"/>
 			<tx:method name="*" read-only="true"/>
 		</tx:attributes>
 	</tx:advice>
 	<aop:config expose-proxy="true" proxy-target-class="true" >
-		<aop:pointcut expression="execution(* com.sxy.graduwork.service.*.*(..))" id="express"/>
-		<aop:advisor pointcut-ref="express" advice-ref="txAdvice" />
+<!-- 		<aop:pointcut expression="execution(* com.sxy.graduwork.dao.*.*(..))" id="express"/> -->
+		<aop:pointcut expression="execution(* com.sxy.graduwork.service.*.*(..))" id="express2"/>
+<!-- 		<aop:advisor pointcut-ref="express" advice-ref="txAdvice" /> -->
+		<aop:advisor pointcut-ref="express2" advice-ref="txAdvice" />
 	</aop:config>
 
+	<bean id="databaseServiceManager" class="com.sxy.graduwork.context.DatabaseServiceManager" init-method="init"></bean>
 	
 	
 </beans>

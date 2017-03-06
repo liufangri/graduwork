@@ -7,8 +7,5 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd"
 	default-autowire="byName">
-	<bean id="testService" class="com.sxy.graduwork.service.TestService"></bean>
-	<bean id="indexService" class="com.sxy.graduwork.service.IndexService"></bean>	
-	<bean id="acmService" class="com.sxy.graduwork.service.ACMService"></bean>
-	<bean id="searchConfigService" class="com.sxy.graduwork.service.SearchConfigService"></bean>
+	<bean id="dbrConfig" class="com.sxy.graduwork.searchconfig.DatabaseResourceConfig" init-method="init" scope="singleton"></bean>
 </beans>

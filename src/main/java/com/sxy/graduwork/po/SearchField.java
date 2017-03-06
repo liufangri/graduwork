@@ -10,17 +10,17 @@ public class SearchField {
 	/**
 	 * How to match. AND(+) NOT(-)
 	 */
-	private char match;
+	private String match;
 	/**
 	 * Field value
 	 */
 	private String value;
 
-	public char getMatch() {
+	public String getMatch() {
 		return match;
 	}
 
-	public void setMatch(char match) {
+	public void setMatch(String match) {
 		this.match = match;
 	}
 

@@ -23,11 +23,13 @@ public class App {
 		if (res == ScriptAccessXmlApplicationContext.INIT_OK) {
 			logger.info("System started in " + (System.currentTimeMillis() - t1) + "ms");
 			int code = context.startListen();
+
 			if (code == ScriptAccessXmlApplicationContext.LISTEN_RUNNING) {
 				logger.info("System is already started!");
 			}
 		}
 		System.out.println(res);
+
 		context.close();
 	}
 }

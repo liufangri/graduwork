@@ -1,24 +1,46 @@
 {
-    "select1": [
+    "select1_normal": [
         {
             "name": "Any field",
-            "value": ""
+            "value": "anyField"
         },
         {
             "name": "Title",
-            "value": "acmdlTitle:"
+            "value": "title"
         },
         {
             "name": "Author",
-            "value": "persons.authors.personName:"
+            "value": "author"
         },
         {
             "name": "Abstract",
-            "value": "recordAbstract:"
+            "value": "digest"
+        },
+        {
+            "name": "Full-text",
+            "value": "content.ftsec:"
         },
         {
             "name": "Publication year",
-            "value": "publicationYear:"
+            "value": "Publication year"
+        }
+    ],
+    "select1_without_date": [
+        {
+            "name": "Any field",
+            "value": "anyField"
+        },
+        {
+            "name": "Title",
+            "value": "title"
+        },
+        {
+            "name": "Author",
+            "value": "author"
+        },
+        {
+            "name": "Abstract",
+            "value": "digest"
         },
         {
             "name": "Full-text",

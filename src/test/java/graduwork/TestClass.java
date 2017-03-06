@@ -1,6 +1,9 @@
 package graduwork;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -9,6 +12,9 @@ import java.util.Map;
 
 import org.junit.Test;
 
+import com.google.gson.Gson;
+import com.sxy.graduwork.context.SystemParameters;
+import com.sxy.graduwork.searchconfig.BasicSearchConfig;
 import com.sxy.graduwork.tools.JSONTool;
 import com.sxy.graduwork.tools.NetTool;
 import com.sxy.graduwork.tools.PropertiesTool;
@@ -74,12 +80,29 @@ public class TestClass {
 
 	}
 
-	@Test
-	public void testSystemUserDir() {
-		// File file = new
-		// File(this.getClass().getClassLoader().getResource("app\\DBConfigs\\DB.json").toURI());
-		String path = this.getClass().getClassLoader().getResource(".").getPath();
-		System.out.println(path);
 
+
+	public void testGetParameter() {
+		String vaString = NetTool.getUrlParameter("http://dl.acm.org/dl.cfm?CFID=904558317&CFTOKEN=79764837", "CFID");
+		vaString = vaString.trim();
+		System.out.println(vaString + " " + vaString.length());
+	}
+
+
+	public void testSystemUserDir() {
+		InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream(SystemParameters.DEFAULT_DB_CONFIG_PATH);
+		Reader reader = new InputStreamReader(inputStream);
+		Gson gson = new Gson();
+		List dbList = gson.fromJson(reader, List.class);
+		System.out.println(dbList);
+
+	}
+
+	@Test
+	public void testGson() {
+		BasicSearchConfig config = new Gson().fromJson(
+				"{\"anyField\":[{\"match\":\"+\",\"value\":\"123\"}],\"title\":[{\"match\":\"\",\"value\":\"123\"}],\"author\":[{\"match\":\"-\",\"value\":\"123\"}],\"digest\":[],\"dte\":\"1947\"}",
+				BasicSearchConfig.class);
+		System.out.println(config.toString());
 	}
 }

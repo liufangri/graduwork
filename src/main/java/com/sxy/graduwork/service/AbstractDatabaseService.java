@@ -2,7 +2,23 @@ package com.sxy.graduwork.service;
 
 import java.io.File;
 
-public abstract class DatabaseService {
+import com.google.gson.Gson;
+import com.sxy.graduwork.searchconfig.DatabaseResourceConfig;
+
+public abstract class AbstractDatabaseService {
+
+	private DatabaseResourceConfig dbrConfig;
+
+	public DatabaseResourceConfig getDbrConfig() {
+		return dbrConfig;
+	}
+
+	public void setDbrConfig(DatabaseResourceConfig dbrConfig) {
+		this.dbrConfig = dbrConfig;
+	}
+
+	private static Gson gson = new Gson();
+
 	/**
 	 * Prepare before accessing database.
 	 */
@@ -18,7 +34,7 @@ public abstract class DatabaseService {
 	public abstract File getEndnoteFile();
 
 	/**
-	 * Get a full-text download url from a database site(If there is).
+	 * Get a full-text download link from a database site.
 	 * 
 	 * @return URL string
 	 */
@@ -31,4 +47,5 @@ public abstract class DatabaseService {
 		// TODO: 导入endnotes文件到Endnote, Endnote处于已经运行的状态，如果没有运行，延续到下次的计划导入时间
 
 	}
+
 }

@@ -6,6 +6,9 @@ import com.sxy.graduwork.po.SearchField;
 
 public class ACMSearchConfig extends BasicSearchConfig {
 
+	public ACMSearchConfig() {
+
+	}
 	public ACMSearchConfig(String json) {
 		super(json);
 	}
@@ -57,7 +60,7 @@ public class ACMSearchConfig extends BasicSearchConfig {
 	private void appendQuery(StringBuffer sb, List<SearchField> fields) {
 		for (SearchField field : fields) {
 
-			char match = field.getMatch();
+			String match = field.getMatch();
 			String values[] = field.getValue().split(" ");
 			if (values.length > 1) {
 				for (int i = 0; i < values.length; i++) {
