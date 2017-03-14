@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="com.sxy.graduwork.po.Article" table="ARTICLE">
+		<id name="doi" type="string">
+			<column name="DOI"></column>
+		</id>
+		<property name="title" type="string">
+			<column name="TITLE"></column>
+		</property>
+		<property name="authors" type="string">
+			<column name="AUTHORS"></column>
+		</property>
+		<property name="publicationDate" type="string">
+			<column name="PUBLICATION_DATE "></column>
+		</property>
+		<property name="source" type="string">
+			<column name="SOURCE"></column>
+		</property>
+		<property name="importMark" type="string">
+			<column name="IMPORT_MARK"></column>
+		</property>
+		<property name="importTime" type="java.sql.Timestamp">
+			<column name="IMPORT_TIME"></column>
+		</property>
+		<property name="enwLocation" type="string">
+			<column name="ENW_LOCATION"></column>
+		</property>
+		<property name="pdfURL" type="string">
+			<column name="PDF_URL"></column>
+		</property>
+	</class>
+</hibernate-mapping>

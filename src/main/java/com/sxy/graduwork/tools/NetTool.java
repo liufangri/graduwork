@@ -1,17 +1,8 @@
 package com.sxy.graduwork.tools;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.Socket;
-
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
 
 public class NetTool {
 
@@ -70,34 +61,4 @@ public class NetTool {
 		return str.trim();
 	}
 
-	/**
-	 * Save text resource(not binary file).
-	 * 
-	 * @param entity
-	 * @param path
-	 * @return
-	 * @throws IOException
-	 */
-	public static String saveText(HttpResponse response, String path) throws IOException {
-		HttpEntity entity = response.getEntity();
-		InputStream in = entity.getContent();
-		BufferedReader reader = new BufferedReader(new InputStreamReader(in));
-		StringBuffer content = new StringBuffer();
-		String temp = "";
-		temp = reader.readLine();
-
-		while (temp != null) {
-			content.append(temp + "\n");
-			temp = reader.readLine();
-		}
-		File file = new File(path);
-		if (!file.exists()) {
-			file.createNewFile();
-		}
-		String htmlContent = content.toString();
-		FileWriter writer = new FileWriter(file);
-		writer.write(htmlContent);
-		writer.close();
-		return htmlContent;
-	}
 }

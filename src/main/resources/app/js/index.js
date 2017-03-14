@@ -179,7 +179,7 @@ function initYears(index) {
 }
 
 
-function createSearchConfigJSON() {
+function createSearchConfigJSON(schedu) {
     var length = $("#pre_selects").attr("data-next-index");
     var currentYear = new Date().getFullYear().valueOf();
     var data = {
@@ -211,56 +211,127 @@ function createSearchConfigJSON() {
         }
     }
     var jsonStr = JSON.stringify(data);
-    var scheduPattern = getScheduPattern();
-    if(scheduPattern == 'E'){
-        return alert('Must create a schedu pattern');
-    }
     var databaseListStr = $("#tagsinput").val();
-    if(databaseListStr == ""){
+    if (databaseListStr == "") {
         return alert('Must choose at least one database');
     }
-    c.call('method', {
-        bean: 'searchConfigService',
-        method: 'addNewSearchConfig',
-        params: {
-            jsonStr: jsonStr,
-            schedu: scheduPattern,
-            databases: databaseListStr
-        }
-    }, (data) => {
-        $('#configModal').modal('hide');
-        refreshConfigTable();
-    })
-}
 
+    //if true, add to search config
+    if (schedu) {
+        var scheduPattern = getScheduPattern();
+        if (scheduPattern == 'E') {
+            return alert('Must create a schedu pattern');
+        }
+        c.call('method', {
+            bean: 'searchConfigService',
+            method: 'addNewSearchConfig',
+            params: {
+                jsonStr: jsonStr,
+                schedu: scheduPattern,
+                databases: databaseListStr
+            }
+        }, (data) => {
+            $('#configModal').modal('hide');
+            refreshConfigTable();
+        })
+    } else {
+        //search right now
+        c.call('method', {
+            bean: 'searchService',
+            method: 'search',
+            params: {
+                jsonStr: jsonStr,
+                databases: databaseListStr
+            }
+        }, (data) => {
+            var result = JSON.parse(data.toString());
+            var dataList = new Array();
+            $('#configModal').modal('hide');
+            //结果列表更新
+            var j = 0;
+            for (var i in result) {
+                dataList[j++] = {
+                    doi: result[i].doi,
+                    title: result[i].title,
+                    authors: result[i].authors,
+                    pdfurl: result[i].pdfURL,
+                    source: result[i].source,
+                    publicationDate: result[i].publicationDate
+                }
+            }
+            setSearchResultTable();
+            $('#resultTable').bootstrapTable('load', dataList);
+
+        })
+
+    }
+}
+function setSearchResultTable() {
+    $('#resultTable').bootstrapTable({
+        columns: [
+            {
+                field: 'doi',
+                title: 'Doi',
+                valign: 'middle',
+                align: 'center'
+            }, {
+                field: 'title',
+                title: 'Title',
+                valign: 'middle',
+                align: 'center'
+            }, {
+                field: 'authors',
+                title: 'Authors',
+                valign: 'middle',
+                align: 'center'
+            }, {
+                field: 'pdfurl',
+                title: 'PDF URL',
+                valign: 'middle',
+                align: 'center'
+            }, {
+                field: 'source',
+                title: 'Source',
+                valign: 'middle',
+                align: 'center'
+            }, {
+                field: 'publicationDate',
+                title: 'Publication Date',
+                valign: 'middle',
+                align: 'center'
+            }
+        ]
+    });
+
+}
 function getScheduPattern() {
     var pattern = '';
     var weekChecked = document.getElementById('schedu_radio_week').checked;
     var checked = false;
-    if(weekChecked){
+    if (weekChecked) {
         pattern += 'W:';
         for (var i = 1; i <= 7; i++) {
-            if(document.getElementById('week_' + i).checked){
+            if (document.getElementById('week_' + i).checked) {
                 checked = true;
                 pattern += i + ',';
             }
         }
-        if(pattern.endsWith(',')){
-            pattern = pattern.substring(0,pattern.length-1);
+        if (pattern.endsWith(',')) {
+            pattern = pattern.substring(0, pattern.length - 1);
         }
-    }else{
+    } else {
         pattern += 'M:';
         for (var i = 1; i <= 3; i++) {
-            if(document.getElementById('month_' + i).checked){
+            if (document.getElementById('month_' + i).checked) {
                 checked = true;
-                pattern += i + ',';
+                pattern += (i == 1 ? '1' : (i == 2 ? '15' : (i == 3 ? 'L' : ''))) + ',';
             }
         }
-        if(pattern.endsWith(',')){
-            pattern = pattern.substring(0,pattern.length-1);
+        if (pattern.endsWith(',')) {
+            pattern = pattern.substring(0, pattern.length - 1);
         }
     }
-    if(!checked){
+    if (!checked) {
         pattern = 'E';
     }
     return pattern;
@@ -309,6 +380,11 @@ function refreshModal() {
 
     //database设置置为初始
     $('.bootstrap-tagsinput').children('input').attr('readonly', 'true');
+    $('.bootstrap-tagsinput').children('input').val('');
+    //设置按钮和输入框显示
+    $('#scheduButton').show();
+    $('#searchButton').hide();
+    $('#modal_schedu').show();
 }
 
 function select1Switch(hasdate, index) {
@@ -340,58 +416,122 @@ function refreshConfigTable() {
     var configList = new Array();
     c.call('method', {
         bean: 'searchConfigService',
-        method: 'getConfigList',
+        method: 'getConfigListString',
 
     }, (data) => {
-        var dataList = JSON.parse(data);
+        var dataList = JSON.parse(data.toString());
         for (var i = 0; i < dataList.length; i++) {
             configList[i] = {
                 num: i + 1,
                 time: dataList[i].createTime,
                 schedu: dataList[i].schedulePattern,
-                config: dataList[i].configJson
+                config: dataList[i].configJson,
+                checkedDatabase: dataList[i].checkedDatabase,
+                id: dataList[i].id
             }
         }
 
         $("#configTable").bootstrapTable({
-            columns: [{
-                field: 'num',
-                title: 'Serial number'
-            },
-            {
-                field: 'time',
-                title: 'Create Time'
-            },
-            {
-                field: 'schedu',
-                title: 'Schedu'
-            },
-            {
-                field: 'config',
-                title: 'Search config'
-            },
-            {
-                title: ''
-            }]
-
+            columns: [
+                {
+                    field: 'num',
+                    title: 'Serial number',
+                    valign: 'middle',
+                    align: 'center'
+                },
+                {
+                    field: 'time',
+                    title: 'Create Time',
+                    align: 'left',
+                    valign: 'middle'
+                },
+                {
+                    field: 'schedu',
+                    title: 'Schedu',
+                    align: 'center',
+                    valign: 'middle'
+                },
+                {
+                    field: 'config',
+                    title: 'Search config',
+                    align: 'left',
+                    valign: 'middle'
+                },
+                {
+                    field: 'checkedDatabase',
+                    title: 'Databases',
+                    align: 'left',
+                    valign: 'middle'
+                }, {
+                    title: 'Operations',
+                    align: 'center',
+                    valign: 'middle',
+                    events: operateEvents,
+                    formatter: operateFormatter
+                }]
         });
         $("#configTable").bootstrapTable('load', configList);
     });
 
 }
 
-function initAvaliableDatabaseList(){
+function initAvaliableDatabaseList() {
     var file = fs.readFileSync('./DBConfigs/DB.json');
     var data = JSON.parse(file);
     var list = '';
-    for(var i in data){
+    for (var i in data) {
         var shortName = data[i].shortName;
-        list = list + '<li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:void(0);" onclick="addItemToDatabaseList(\''+ shortName +'\')">' + shortName + '</a></li>';
+        list = list + '<li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:void(0);" onclick="addItemToDatabaseList(\'' + shortName + '\')">' + shortName + '</a></li>';
     }
     document.getElementById('database-list').innerHTML = list;
-    
+
 }
 
-function addItemToDatabaseList(value){
-    $('#tagsinput').tagsinput('add',value);
+function addItemToDatabaseList(value) {
+    $('#tagsinput').tagsinput('add', value);
 }
+
+function operateFormatter(value, row, index) {
+    return [
+        '<a class="remove" href="javascript:void(0)" title="Remove">',
+        '<i class="glyphicon glyphicon-remove"></i>',
+        '</a>'
+    ].join('');
+}
+window.operateEvents = {
+    'click .like': function (e, value, row, index) {
+        alert('You click like action, row: ' + JSON.stringify(row));
+    },
+    'click .remove': function (e, value, row, index) {
+        c.call('method', {
+            bean: 'searchConfigService',
+            method: 'deleteConfigLogic',
+            params: {
+                id: row.id
+            }
+        }, (data) => {
+            console.log(data.toString());
+            // If success, delete this row.
+            if (JSON.parse(data.toString()).result == "SUCCESS") {
+
+                $('#configTable').bootstrapTable('remove', {
+                    field: 'id',
+                    values: [row.id]
+                });
+                //refreshConfigTable();
+
+            } else {
+                alert('Delete failed: ' + data);
+            }
+            // If fail, alert.
+        })
+    }
+}
+function startSearch() {
+    refreshModal();
+    $('#scheduButton').hide();
+    $('#searchButton').show();
+    $('#modal_schedu').hide();
+
+}
+

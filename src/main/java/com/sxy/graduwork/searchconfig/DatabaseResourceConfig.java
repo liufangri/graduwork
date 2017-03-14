@@ -50,14 +50,13 @@ public class DatabaseResourceConfig {
 			inputStream.close();
 			reader.close();
 		} catch (Exception e) {
-			// TODO: Handle exception
 			logger.debug(e.getMessage());
 			e.printStackTrace();
 		}
 		// 将配置存入map里，便于读取
 		for (Map<String, String> map : dbrList) {
-			String dbrName = map.get("DBRName");
-			dbrMap.put(dbrName, map);
+			String dbrShortName = map.get("shortName");
+			dbrMap.put(dbrShortName, map);
 		}
 	}
 }

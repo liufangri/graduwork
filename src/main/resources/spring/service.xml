@@ -6,9 +6,10 @@
 	xmlns:tx="http://www.springframework.org/schema/tx"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd"
-	default-autowire="byName">
-	<bean id="testService" class="com.sxy.graduwork.service.TestService"></bean>
-	<bean id="indexService" class="com.sxy.graduwork.service.IndexService"></bean>	
-	<bean id="acmService" class="com.sxy.graduwork.service.ACMService"></bean>
-	<bean id="searchConfigService" class="com.sxy.graduwork.service.SearchConfigService"></bean>
+	default-autowire="byName" >
+	<bean id="testService" class="com.sxy.graduwork.service.TestService" scope="singleton"></bean>
+	<bean id="indexService" class="com.sxy.graduwork.service.IndexService" scope="singleton"></bean>	
+	<bean id="acmService" class="com.sxy.graduwork.service.ACMService" scope="singleton"></bean>
+	<bean id="searchConfigService" class="com.sxy.graduwork.service.SearchConfigService" init-method="init" scope="singleton"></bean>
+	<bean id="searchService" class="com.sxy.graduwork.service.SearchService" scope="singleton"></bean>
 </beans>

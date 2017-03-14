@@ -1,20 +1,37 @@
 package com.sxy.graduwork.service;
 
 import java.io.File;
+import java.io.IOException;
+import java.util.Map;
+import java.util.Map.Entry;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import com.google.gson.Gson;
+import com.sxy.graduwork.po.Article;
+import com.sxy.graduwork.po.SearchConfig;
+import com.sxy.graduwork.searchconfig.BasicSearchConfig;
 import com.sxy.graduwork.searchconfig.DatabaseResourceConfig;
+import com.sxy.graduwork.tools.PropertiesTool;
 
 public abstract class AbstractDatabaseService {
 
-	private DatabaseResourceConfig dbrConfig;
+	private DatabaseResourceConfig databaseResourceConfig;
+	private SearchConfigService searchConfigService;
 
-	public DatabaseResourceConfig getDbrConfig() {
-		return dbrConfig;
+	private static Log logger = LogFactory.getLog(AbstractDatabaseService.class);
+
+	public void setSearchConfigService(SearchConfigService searchConfigService) {
+		this.searchConfigService = searchConfigService;
 	}
 
-	public void setDbrConfig(DatabaseResourceConfig dbrConfig) {
-		this.dbrConfig = dbrConfig;
+	public DatabaseResourceConfig getDatabaseResourceConfig() {
+		return databaseResourceConfig;
+	}
+
+	public void setDatabaseResourceConfig(DatabaseResourceConfig databaseResourceConfig) {
+		this.databaseResourceConfig = databaseResourceConfig;
 	}
 
 	private static Gson gson = new Gson();
@@ -27,25 +44,62 @@ public abstract class AbstractDatabaseService {
 	}
 
 	/**
+	 * Get searchResult
+	 * 
+	 * @param paramsMap
+	 * @return
+	 */
+	public String getSearchResultForFront(Map<String, String> paramsMap) {
+		SearchConfig config = searchConfigService.createSearchConfig(paramsMap);
+		BasicSearchConfig searchConfig = gson.fromJson(config.getConfigJson(), BasicSearchConfig.class);
+		Map<String, Article> articleMap = getSearchResultArticleMap(searchConfig);
+		String result = gson.toJson(articleMap);
+		return result;
+	}
+
+	/**
 	 * Get Endnote file from a database site.
+	 * 
+	 * @param searchConfig
+	 *            TODO
 	 * 
 	 * @return file
 	 */
-	public abstract File getEndnoteFile();
+	public abstract Map<String, Article> getSearchResultArticleMap(BasicSearchConfig searchConfig);
 
 	/**
 	 * Get a full-text download link from a database site.
 	 * 
 	 * @return URL string
 	 */
-	public abstract String getFullTextURL();
+	public abstract Map<String, String> getFullTextURLMap();
 
 	/**
 	 * Import .enw file into endnote
 	 */
-	public void exportToEndnote() {
-		// TODO: 导入endnotes文件到Endnote, Endnote处于已经运行的状态，如果没有运行，延续到下次的计划导入时间
-
+	public void exportToEndnote(Map<String, Article> articleMap) {
+		// 导入enw文件到Endnote, Endnote处于已经运行的状态，如果没有运行，会直接打开
+		Runtime runtime = Runtime.getRuntime();
+		for (Entry<String, Article> entry : articleMap.entrySet()) {
+			Article article = entry.getValue();
+			String path = article.getEnwLocation();
+			logger.info("Exporting file: " + path);
+			try {
+				PropertiesTool pt = new PropertiesTool();
+				String endnotePath = pt.getValue("endnote_location");
+				String classpath = pt.setPath("config/configuration").getValue("classpath");
+				File folder = new File(classpath);
+				Process process = runtime.exec(new String[] { endnotePath + "EndNote.exe", classpath + path }, null, folder);
+				process.waitFor();
+			} catch (IOException e) {
+				logger.error("Export failed.");
+				e.printStackTrace();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
+
 
 }

@@ -8,6 +8,7 @@ public class SearchConfig {
 	private String configJson;
 	private String schedulePattern;
 	private Timestamp createTime;
+	private String deleteMark;
 
 	public String getId() {
 		return id;
@@ -47,6 +48,14 @@ public class SearchConfig {
 
 	public void setCreateTime(Timestamp createTime) {
 		this.createTime = createTime;
+	}
+
+	public String getDeleteMark() {
+		return deleteMark;
+	}
+
+	public void setDeleteMark(String deleteMark) {
+		this.deleteMark = deleteMark;
 	}
 
 }

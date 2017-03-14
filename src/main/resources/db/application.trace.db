@@ -10,3 +10,29 @@ alter table test set id varchar(40) [42001-193]
 2017-03-03 16:11:53 jdbc[3]: exception
 org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "ALTER TABLE TEST SET ID[*] VARCHAR(40) PRIMARY KEY "; expected "REFERENTIAL_INTEGRITY"; SQL statement:
 alter table test set id varchar(40) primary key [42001-193]
+2017-03-06 16:27:47 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "ALTER TABLE  
+ADD DELETE_MARK[*] VARCHAR(8) DEFAULT '0'
+  "; expected "., ADD, SET, RENAME, DROP, CHANGE, MODIFY, ALTER"; SQL statement:
+ALTER TABLE  
+add DELETE_MARK varchar(8) DEFAULT '0'
+  [42001-193]
+2017-03-06 16:28:09 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "ALTER TABLE 
+ADD DELETE_MARK[*] VARCHAR(8) DEFAULT '0' "; expected "., ADD, SET, RENAME, DROP, CHANGE, MODIFY, ALTER"; SQL statement:
+ALTER TABLE 
+ADD DELETE_MARK varchar(8) DEFAULT '0' [42001-193]
+2017-03-06 16:28:20 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "ALTER TABLE ADD DELETE_MARK[*] VARCHAR(8) DEFAULT '0' "; expected "., ADD, SET, RENAME, DROP, CHANGE, MODIFY, ALTER"; SQL statement:
+ALTER TABLE ADD DELETE_MARK varchar(8) DEFAULT '0' [42001-193]
+2017-03-06 16:29:06 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "ALTER TABLE SEARCH_CONFIG ADD COLUMN DELETE_MARK VARCHAR(1) DEFAULT '0'
+SEARCH_CONFIG[*]"; SQL statement:
+ALTER TABLE SEARCH_CONFIG ADD COLUMN DELETE_MARK VARCHAR(1) DEFAULT '0'
+SEARCH_CONFIG [42000-193]
+2017-03-06 16:29:09 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "SEARCH_CONFIG[*]"; expected "SELECT, SET, SAVEPOINT, SCRIPT, SHUTDOWN, SHOW, {"; SQL statement:
+SEARCH_CONFIG [42001-193]
+2017-03-14 08:39:08 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "ALTER TABLE ALTER COLUMN[*] DOI (VARCHAR(64)) "; expected "., ADD, SET, RENAME, DROP, CHANGE, MODIFY, ALTER"; SQL statement:
+ALTER TABLE ALTER COLUMN DOI (varchar(64)) [42001-193]

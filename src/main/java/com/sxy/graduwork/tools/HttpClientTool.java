@@ -1,6 +1,8 @@
 package com.sxy.graduwork.tools;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -32,7 +34,6 @@ public class HttpClientTool {
 		buffer = reader.readLine();
 
 		while (buffer != null) {
-			System.out.println(buffer);
 			content.append(buffer + "\n");
 			buffer = reader.readLine();
 		}
@@ -52,9 +53,30 @@ public class HttpClientTool {
 		CloseableHttpClient httpClient = HttpClients.createDefault();
 		CloseableHttpResponse response = httpClient.execute(httpGet);
 		HttpEntity entity = response.getEntity();
+		String content = HttpClientTool.getContentStringByHttpEntity(entity);
 		response.close();
 		httpClient.close();
-		String content = HttpClientTool.getContentStringByHttpEntity(entity);
 		return content;
+	}
+
+	/**
+	 * Save Content from a URI into a file.
+	 * 
+	 * @param uri
+	 * @param path
+	 * @throws IOException
+	 * @throws ClientProtocolException
+	 */
+	public static File saveContentOfUri(URI uri, String path) throws ClientProtocolException, IOException {
+		String content = getContentStringByUri(uri);
+		File file = new File(path);
+		if (!file.exists()) {
+			file.createNewFile();
+		}
+		String htmlContent = content.toString();
+		FileWriter writer = new FileWriter(file);
+		writer.write(htmlContent);
+		writer.close();
+		return file;
 	}
 }

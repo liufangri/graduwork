@@ -7,5 +7,6 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd"
 	default-autowire="byName">
-	<bean id="searchConfigDao" class="com.sxy.graduwork.dao.SearchConfigDao" scope="singleton"></bean>
+	<bean id="searchConfigDao" class="com.sxy.graduwork.dao.SearchConfigDao" ></bean>
+	<bean id="articleDao" class="com.sxy.graduwork.dao.ArticleDao" ></bean>
 </beans>

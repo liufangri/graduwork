@@ -6,6 +6,15 @@
 		"pageSize":"20",
 		"scheme":"http",
 		"resultPath":"/results.cfm",
-		"serviceID":"acmService"
+		"exportPath":"/downformats.cfm",
+		"serviceID":"acmService",
+
+		"doiAttrName":"citation_doi",
+		"titleAttrName":"citation_title",
+		"dateAttrName":"citation_date",
+		"ftAttrName":"citation_pdf_url",
+		"kwAttrName":"citation_keywords",
+		"authorAttrName":"citation_authors",
+		"abstractAttrName":"citation_abstract_html_url"
 	}
 ]

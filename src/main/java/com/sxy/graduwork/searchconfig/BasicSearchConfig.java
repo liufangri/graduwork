@@ -89,15 +89,13 @@ public class BasicSearchConfig {
 
 	}
 
-	public BasicSearchConfig(String json) {
-		BasicSearchConfig config = new Gson().fromJson(json, BasicSearchConfig.class);
-		this.anyField = config.getAnyField();
-		this.title = config.getTitle();
-		this.digest = config.getDigest();
-		this.author = config.getAuthor();
-		this.bfr = config.getBfr();
-		this.dte = config.getDte();
-		config = null;
+	public BasicSearchConfig(BasicSearchConfig basicSearchConfig) {
+		anyField = basicSearchConfig.getAnyField();
+		author = basicSearchConfig.getAuthor();
+		bfr = basicSearchConfig.getBfr();
+		digest = basicSearchConfig.getDigest();
+		dte = basicSearchConfig.getDte();
+		title = basicSearchConfig.getTitle();
 	}
 
 	public BasicSearchConfig fromJSON(String json) {

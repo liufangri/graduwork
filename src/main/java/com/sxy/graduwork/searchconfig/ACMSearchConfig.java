@@ -9,8 +9,9 @@ public class ACMSearchConfig extends BasicSearchConfig {
 	public ACMSearchConfig() {
 
 	}
-	public ACMSearchConfig(String json) {
-		super(json);
+
+	public ACMSearchConfig(BasicSearchConfig basicSearchConfig) {
+		super(basicSearchConfig);
 	}
 
 	/**

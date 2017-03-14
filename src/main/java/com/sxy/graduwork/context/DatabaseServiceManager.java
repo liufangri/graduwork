@@ -22,9 +22,15 @@ public class DatabaseServiceManager implements ApplicationContextAware {
 	public void init() {
 		ListableBeanFactory lbf = ((ScriptAccessXmlApplicationContext) applicationContext).getBeanFactory();
 		dbServiceMap = BeanFactoryUtils.beansOfTypeIncludingAncestors(lbf, AbstractDatabaseService.class, true, true);
+
 	}
 
 	public AbstractDatabaseService getServiceByID(String name) {
-		return dbServiceMap.get("name");
+		return dbServiceMap.get(name);
 	}
+
+	public Map<String, AbstractDatabaseService> getDbServiceMap() {
+		return dbServiceMap;
+	}
+
 }
