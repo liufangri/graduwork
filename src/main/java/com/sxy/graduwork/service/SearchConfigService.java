@@ -99,8 +99,4 @@ public class SearchConfigService implements ApplicationContextAware {
 		return "{\"result\":\"SUCCESS\"}";
 	}
 
-	public void init() {
-		System.out.println("SearchConfigSeavice inited");
-		System.out.println(searchConfigDao);
-	}
 }

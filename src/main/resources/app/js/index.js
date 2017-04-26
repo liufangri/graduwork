@@ -23,6 +23,12 @@ function init() {
         var id = e.currentTarget.getAttribute('id');
         $("#" + id + "page").show();
     });
+    //激活窗体
+    $('#list').click();
+    //更新配置列表
+    $('#configTable').on('refresh.bs.table',(e)=>{
+        refreshConfigTable();
+    } )
 
     $('label.radio').on('click', (e) => {
         var type = e.currentTarget.getAttribute('data-schedu');
@@ -192,7 +198,7 @@ function createSearchConfigJSON(schedu) {
     };
     var count = 0;
     for (var i = 0; i < length; i++) {
-        var wrp = $("#wrp_" + i);
+        var wrp = document.getElementById("wrp_" + i);
         if (wrp == null) {
             continue;
         } else {
@@ -222,47 +228,64 @@ function createSearchConfigJSON(schedu) {
         if (scheduPattern == 'E') {
             return alert('Must create a schedu pattern');
         }
-        c.call('method', {
-            bean: 'searchConfigService',
-            method: 'addNewSearchConfig',
-            params: {
-                jsonStr: jsonStr,
-                schedu: scheduPattern,
-                databases: databaseListStr
+        c.call('method',
+            {
+                bean: 'searchConfigService',
+                method: 'addNewSearchConfig',
+                params: {
+                    jsonStr: jsonStr,
+                    schedu: scheduPattern,
+                    databases: databaseListStr
+                }
+            },
+            (data) => {
+                $('#configModal').modal('hide');
+                refreshConfigTable();
+            },
+            (data) => {
+                alert('Add failed');
             }
-        }, (data) => {
-            $('#configModal').modal('hide');
-            refreshConfigTable();
-        })
+        )
     } else {
         //search right now
-        c.call('method', {
-            bean: 'searchService',
-            method: 'search',
-            params: {
-                jsonStr: jsonStr,
-                databases: databaseListStr
-            }
-        }, (data) => {
-            var result = JSON.parse(data.toString());
-            var dataList = new Array();
-            $('#configModal').modal('hide');
-            //结果列表更新
-            var j = 0;
-            for (var i in result) {
-                dataList[j++] = {
-                    doi: result[i].doi,
-                    title: result[i].title,
-                    authors: result[i].authors,
-                    pdfurl: result[i].pdfURL,
-                    source: result[i].source,
-                    publicationDate: result[i].publicationDate
+        //显示等待
+        $('#configModal').modal('hide');
+        $('#searching').show();
+        c.call('method',
+            {
+                bean: 'searchService',
+                method: 'search',
+                params: {
+                    jsonStr: jsonStr,
+                    databases: databaseListStr
                 }
-            }
-            setSearchResultTable();
-            $('#resultTable').bootstrapTable('load', dataList);
+            },
+            (data) => {
+                //隐藏等待
+                $('#searching').hide();
+                var result = JSON.parse(data.toString());
+                var dataList = new Array();
+                
+                //结果列表更新
+                var j = 0;
+                for (var i in result) {
+                    dataList[j++] = {
+                        doi: result[i].doi,
+                        title: result[i].title,
+                        authors: result[i].authors,
+                        pdfurl: result[i].pdfURL,
+                        source: result[i].source,
+                        publicationDate: result[i].publicationDate
+                    }
+                }
+                setSearchResultTable();
+                $('#resultTable').bootstrapTable('load', dataList);
 
-        })
+            },
+            (data) => {
+                $('#searching').hide();
+                alert('Search failed');
+            })
 
     }
 }
@@ -331,8 +354,9 @@ function getScheduPattern() {
             pattern = pattern.substring(0, pattern.length - 1);
         }
     }
+    pattern += '!' + $('#time_min').val() + ' ' + $('#time_h').val();
     if (!checked) {
-        pattern = 'E';
+        pattern.startsWith('E');
     }
     return pattern;
 }
@@ -378,6 +402,21 @@ function refreshModal() {
     // $('#schedu_radio_week').attr('checked', '');
     // $('#schedu_radio_month').removeAttr('checked');
 
+    //设置时间选择初始状态
+    var tStr = '';
+    for (var i = 0; i < 24; i++) {
+        tStr = tStr + '<option value=\"' + i + '\">' + i + '</option>'
+    }
+    var timeH = document.getElementById('time_h');
+    timeH.innerHTML = tStr;
+    timeH.selectedIndex = 10;
+    tStr = '';
+    for (var i = 0; i < 60; i += 15) {
+        tStr = tStr + '<option value=\"' + i + '\">' + i + '</option>'
+    }
+    document.getElementById('time_min').innerHTML = tStr;
+
+
     //database设置置为初始
     $('.bootstrap-tagsinput').children('input').attr('readonly', 'true');
     $('.bootstrap-tagsinput').children('input').val('');
@@ -413,65 +452,73 @@ function select1Switch(hasdate, index) {
 
 
 function refreshConfigTable() {
+
+    $('#refreshingConfigList').show();
     var configList = new Array();
-    c.call('method', {
-        bean: 'searchConfigService',
-        method: 'getConfigListString',
+    c.call('method',
+        {
+            bean: 'searchConfigService',
+            method: 'getConfigListString',
 
-    }, (data) => {
-        var dataList = JSON.parse(data.toString());
-        for (var i = 0; i < dataList.length; i++) {
-            configList[i] = {
-                num: i + 1,
-                time: dataList[i].createTime,
-                schedu: dataList[i].schedulePattern,
-                config: dataList[i].configJson,
-                checkedDatabase: dataList[i].checkedDatabase,
-                id: dataList[i].id
+        },
+        (data) => {
+            var dataList = JSON.parse(data.toString());
+            for (var i = 0; i < dataList.length; i++) {
+                configList[i] = {
+                    num: i + 1,
+                    time: dataList[i].createTime,
+                    schedu: dataList[i].schedulePattern,
+                    config: dataList[i].configJson,
+                    checkedDatabase: dataList[i].checkedDatabase,
+                    id: dataList[i].id
+                }
             }
-        }
 
-        $("#configTable").bootstrapTable({
-            columns: [
-                {
-                    field: 'num',
-                    title: 'Serial number',
-                    valign: 'middle',
-                    align: 'center'
-                },
-                {
-                    field: 'time',
-                    title: 'Create Time',
-                    align: 'left',
-                    valign: 'middle'
-                },
-                {
-                    field: 'schedu',
-                    title: 'Schedu',
-                    align: 'center',
-                    valign: 'middle'
-                },
-                {
-                    field: 'config',
-                    title: 'Search config',
-                    align: 'left',
-                    valign: 'middle'
-                },
-                {
-                    field: 'checkedDatabase',
-                    title: 'Databases',
-                    align: 'left',
-                    valign: 'middle'
-                }, {
-                    title: 'Operations',
-                    align: 'center',
-                    valign: 'middle',
-                    events: operateEvents,
-                    formatter: operateFormatter
-                }]
+            $("#configTable").bootstrapTable({
+                columns: [
+                    {
+                        field: 'num',
+                        title: 'Serial number',
+                        valign: 'middle',
+                        align: 'center'
+                    },
+                    {
+                        field: 'time',
+                        title: 'Create Time',
+                        align: 'left',
+                        valign: 'middle'
+                    },
+                    {
+                        field: 'schedu',
+                        title: 'Schedu',
+                        align: 'center',
+                        valign: 'middle'
+                    },
+                    {
+                        field: 'config',
+                        title: 'Search config',
+                        align: 'left',
+                        valign: 'middle'
+                    },
+                    {
+                        field: 'checkedDatabase',
+                        title: 'Databases',
+                        align: 'left',
+                        valign: 'middle'
+                    }, {
+                        title: 'Operations',
+                        align: 'center',
+                        valign: 'middle',
+                        events: operateEvents,
+                        formatter: operateFormatter
+                    }]
+            });
+            $("#configTable").bootstrapTable('load', configList);
+            $('#refreshingConfigList').hide();
+        },
+        (data) => {
+
         });
-        $("#configTable").bootstrapTable('load', configList);
-    });
 
 }
 
@@ -503,28 +550,33 @@ window.operateEvents = {
         alert('You click like action, row: ' + JSON.stringify(row));
     },
     'click .remove': function (e, value, row, index) {
-        c.call('method', {
-            bean: 'searchConfigService',
-            method: 'deleteConfigLogic',
-            params: {
-                id: row.id
-            }
-        }, (data) => {
-            console.log(data.toString());
-            // If success, delete this row.
-            if (JSON.parse(data.toString()).result == "SUCCESS") {
+        c.call('method',
+            {
+                bean: 'searchConfigService',
+                method: 'deleteConfigLogic',
+                params: {
+                    id: row.id
+                }
+            },
+            (data) => {
+                console.log(data.toString());
+                // If success, delete this row.
+                if (JSON.parse(data.toString()).result == "SUCCESS") {
 
-                $('#configTable').bootstrapTable('remove', {
-                    field: 'id',
-                    values: [row.id]
-                });
-                //refreshConfigTable();
+                    $('#configTable').bootstrapTable('remove', {
+                        field: 'id',
+                        values: [row.id]
+                    });
+                    //refreshConfigTable();
 
-            } else {
-                alert('Delete failed: ' + data);
-            }
-            // If fail, alert.
-        })
+                } else {
+                    alert('Delete failed: ' + data);
+                }
+                // If fail, alert.
+            },
+            (data) => {
+                alert('Delete failed.');
+            });
     }
 }
 function startSearch() {

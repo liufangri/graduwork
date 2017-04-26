@@ -17,10 +17,6 @@
             "value": "digest"
         },
         {
-            "name": "Full-text",
-            "value": "content.ftsec:"
-        },
-        {
             "name": "Publication year",
             "value": "Publication year"
         }
@@ -41,10 +37,6 @@
         {
             "name": "Abstract",
             "value": "digest"
-        },
-        {
-            "name": "Full-text",
-            "value": "content.ftsec:"
         }
     ],
     "select2": [

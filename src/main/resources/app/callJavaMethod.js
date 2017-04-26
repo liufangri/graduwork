@@ -5,7 +5,7 @@ var HOST = '127.0.0.1'
 var calljavamethod = {}
 var PORT = props.current_port
 
-calljavamethod.call = function (kind, data, method) {
+calljavamethod.call = function (kind, data, method, error) {
     var client = new net.Socket()
     var result = 'Failed'
     client.connect(PORT, HOST, () => {
@@ -27,14 +27,15 @@ calljavamethod.call = function (kind, data, method) {
 
     })
     client.on('data', (data) => {
-        method(data)
         client.destroy()
+        method(data)
     })
     client.on('close', () => {
         
     })
     client.on('error', (data) => {
         console.log('error:' + data.message)
+        error(data)
     })
 }
 exports.calljavamethod = calljavamethod

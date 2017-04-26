@@ -5,38 +5,40 @@
   <link rel="stylesheet" href="./css/bootstrap.min.css" />
   <link rel="stylesheet" href="./css/flat-ui.css" />
   <link rel="stylesheet" href="./css/index.css" />
-  <link rel="stylesheet" href="./css/bootstrap-table.min.css" </head>
+  <link rel="stylesheet" href="./css/bootstrap-table.min.css" />
+  <link rel="stylesheet" href="./css/font-awesome.min.css" />
+</head>
 
-  <body style="height: 100%; position: fixed; width: 100%;">
-    <div class="headbar">
-      <!--<div class="headzone">
+<body style="height: 100%; position: fixed; width: 100%;">
+  <div class="headbar">
+    <!--<div class="headzone">
       
     </div>-->
-      <div class="bodyzone">
-        <ul class="bodylist">
-          <li id="main" class="active"><a><span class="fui-home"></span>主页</a></li>
-          <li id="list"><a><span class="fui-list-columned"></span>列表</a></li>
-          <li id="search"><a><span class="fui-search"></span>检索</a></li>
-          <li id="other"><a><span class="fui-info-circle"></span>...</a></li>
-        </ul>
-      </div>
+    <div class="bodyzone">
+      <ul class="bodylist">
+        <li id="main" hidden><a><span class="fui-home"></span>MAIN</a></li>
+        <li id="list"><a><span class="fui-list-columned"></span>LIST</a></li>
+        <li id="search"><a><span class="fui-search"></span>SEARCH</a></li>
+        <li id="other"><a><span class="fui-info-circle"></span>...</a></li>
+      </ul>
     </div>
-    <!--<div class="mainview" hihidden="true">
+  </div>
+  <!--<div class="mainview" hihidden="true">
   
   
 </div>-->
-    <!-- 检索配置模态框 -->
-    <div class="modal fade" id="configModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-      <div class="modal-dialog" style="width: 1000px">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-            <h4 class="modal-title" id="myModalLabel">数据库高级检索</h4>
-          </div>
-          <div id="modal_search_conditions" class="modal-body">
-            <b id="pre_selects" data-next-index="0">Search Conditons:</b>
-            <div id="selects" class="modal-main-acm"></div>
-            <!--<div id="wrp_0">
+  <!-- 检索配置模态框 -->
+  <div class="modal fade" id="configModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" style="width: 1000px">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title" id="myModalLabel">Advance Search</h4>
+        </div>
+        <div id="modal_search_conditions" class="modal-body">
+          <b id="pre_selects" data-next-index="0">Search Conditons:</b>
+          <div id="selects" class="modal-main-acm"></div>
+          <!--<div id="wrp_0">
           <label>Where</label> 
           <select id="select1_0"></select>
           <select id="select2_0"></select>
@@ -44,111 +46,107 @@
             <input type="text"/>
           <button id="add_wrp_0" ><span class="glyphicon glyphicon-plus"></span></button>
         </div>-->
-            <div id="after_selets" style="clear: both">
-              <input type="text" id="dte" hidden>
-              <input type="text" id="bfr" hidden>
-            </div>
+          <div id="after_selets" style="clear: both">
+            <input type="text" id="dte" hidden>
+            <input type="text" id="bfr" hidden>
           </div>
+        </div>
 
-          <div id="modal_schedu" class="modal-body" style="border-top: 1px solid #e5e5e5">
-            <b id="pre_selects" data-next-index="0">Schedu Setting:</b>
-            <div>
-              <div class="schedu-radio-group">
-                <label class="radio" data-schedu="week">
+        <div id="modal_schedu" class="modal-body" style="border-top: 1px solid #e5e5e5">
+          <b id="pre_selects" data-next-index="0">Schedu Setting:</b>
+          <div>
+            <div class="schedu-radio-group">
+              <label class="radio" data-schedu="week">
                   <input type="radio" data-toggle="radio" name="schedu" id="schedu_radio_week" value="schedu" data-radiocheck-toggle="radio" checked="">
                   Weekly
                 </label>
-              </div>
-              <div class="schedu-radio-group">
-                <label class="radio" data-schedu="month">
+            </div>
+            <div class="schedu-radio-group">
+              <label class="radio" data-schedu="month">
                   <input type="radio" data-toggle="radio" name="schedu" id="schedu_radios_month" value="schedu" data-radiocheck-toggle="radio" >
                   Monthly
                 </label>
-              </div>
-              <div style="clear: both"></div>
-              <div id="week_check" class="schedu-check-group">
-                <label class="checkbox primary schedu-checkbox"><input data-checkbox-type="week" data-toggle="radio" type="checkbox" id="week_2" value="week_2"/>Monday</label>
-                <label class="checkbox primary schedu-checkbox"><input data-checkbox-type="week" data-toggle="radio" type="checkbox" id="week_3" value="week_3"/>Tuesday</label>
-                <label class="checkbox primary schedu-checkbox"><input data-checkbox-type="week" data-toggle="radio" type="checkbox" id="week_4" value="week_4"/>Wednesday</label>
-                <label class="checkbox primary schedu-checkbox"><input data-checkbox-type="week" data-toggle="radio" type="checkbox" id="week_5" value="week_5"/>Thursday</label>
-                <label class="checkbox primary schedu-checkbox"><input data-checkbox-type="week" data-toggle="radio" type="checkbox" id="week_6" value="week_6"/>Friday</label>
-                <label class="checkbox primary schedu-checkbox"><input data-checkbox-type="week" data-toggle="radio" type="checkbox" id="week_7" value="week_7"/>Saturday</label>
-                <label class="checkbox primary schedu-checkbox"><input data-checkbox-type="week" data-toggle="radio" type="checkbox" id="week_1" value="week_1"/>Sunday</label>
-              </div>
-              <div id="month_check" class="schedu-check-group" style="display: none">
-                <label class="checkbox primary schedu-checkbox"><input data-checkbox-type="month" data-toggle="radio" type="checkbox" id="month_1" value="month_1"/>First day of the month</label>
-                <label class="checkbox primary schedu-checkbox"><input data-checkbox-type="month" data-toggle="radio" type="checkbox" id="month_2" value="month_2"/>Middle of the month</label>
-                <label class="checkbox primary schedu-checkbox"><input data-checkbox-type="month" data-toggle="radio" type="checkbox" id="month_3" value="month_3"/>Last day of the month</label>
-              </div>
-              <!--<input type="radio" name="week" value="Week"><input type="radio" name="month" value="Month" >-->
-              <div style="clear: both"></div>
             </div>
-          </div>
-          <div id="modal_databases" class="modal-body" style="border-top: 1px solid #e5e5e5">
-            <b id="pre_selects" data-next-index="0">Choose Databases:</b>
-            <input name="tagsinput" id="tagsinput" class="tagsinput" data-role="tagsinput" value="" readonly="true" />
-            <div class="tagsinput-add">
-              <div class="dropdown">
-                <button style="background-color: #ffffff;color: #888888" class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1"
-                  data-toggle="dropdown">
-                  <span class="glyphicon glyphicon-plus"></span>
-                </button>
-                <ul id="database-list" class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-                  <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:void(0);">...</a></li>
-                </ul>
-              </div>
+            <div class="schedu-time-pick">
+              <select id="time_h"></select> : <select id="time_min"></select>
             </div>
             <div style="clear: both"></div>
-          </div>
-          <div class="modal-footer" style="clear: left">
-            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-            <button id="scheduButton" type="button" class="btn btn-primary" onclick="createSearchConfigJSON(true)">确定</button>
-            <button id="searchButton" type="button" class="btn btn-primary" onclick="createSearchConfigJSON(false)" style="display: none">确定</button>
+            <div id="week_check" class="schedu-check-group">
+              <label class="checkbox primary schedu-checkbox"><input data-checkbox-type="week" data-toggle="radio" type="checkbox" id="week_2" value="week_2"/>Monday</label>
+              <label class="checkbox primary schedu-checkbox"><input data-checkbox-type="week" data-toggle="radio" type="checkbox" id="week_3" value="week_3"/>Tuesday</label>
+              <label class="checkbox primary schedu-checkbox"><input data-checkbox-type="week" data-toggle="radio" type="checkbox" id="week_4" value="week_4"/>Wednesday</label>
+              <label class="checkbox primary schedu-checkbox"><input data-checkbox-type="week" data-toggle="radio" type="checkbox" id="week_5" value="week_5"/>Thursday</label>
+              <label class="checkbox primary schedu-checkbox"><input data-checkbox-type="week" data-toggle="radio" type="checkbox" id="week_6" value="week_6"/>Friday</label>
+              <label class="checkbox primary schedu-checkbox"><input data-checkbox-type="week" data-toggle="radio" type="checkbox" id="week_7" value="week_7"/>Saturday</label>
+              <label class="checkbox primary schedu-checkbox"><input data-checkbox-type="week" data-toggle="radio" type="checkbox" id="week_1" value="week_1"/>Sunday</label>
+            </div>
+            <div id="month_check" class="schedu-check-group" style="display: none">
+              <label class="checkbox primary schedu-checkbox"><input data-checkbox-type="month" data-toggle="radio" type="checkbox" id="month_1" value="month_1"/>First day of the month</label>
+              <label class="checkbox primary schedu-checkbox"><input data-checkbox-type="month" data-toggle="radio" type="checkbox" id="month_2" value="month_2"/>Middle of the month</label>
+              <label class="checkbox primary schedu-checkbox"><input data-checkbox-type="month" data-toggle="radio" type="checkbox" id="month_3" value="month_3"/>Last day of the month</label>
+            </div>
+            <!--<input type="radio" name="week" value="Week"><input type="radio" name="month" value="Month" >-->
+            <div style="clear: both"></div>
           </div>
         </div>
-        <!-- /.modal-content -->
+        <div id="modal_databases" class="modal-body" style="border-top: 1px solid #e5e5e5">
+          <b id="pre_selects" data-next-index="0">Choose Databases:</b>
+          <input name="tagsinput" id="tagsinput" class="tagsinput" data-role="tagsinput" value="" readonly="true" />
+          <div class="tagsinput-add">
+            <div class="dropdown">
+              <button style="background-color: #ffffff;color: #888888" class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1"
+                data-toggle="dropdown">
+                  <span class="glyphicon glyphicon-plus"></span>
+                </button>
+              <ul id="database-list" class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+                <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:void(0);">...</a></li>
+              </ul>
+            </div>
+          </div>
+          <div style="clear: both"></div>
+        </div>
+        <div class="modal-footer" style="clear: left">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button id="scheduButton" type="button" class="btn btn-primary" onclick="createSearchConfigJSON(true)">OK</button>
+          <button id="searchButton" type="button" class="btn btn-primary" onclick="createSearchConfigJSON(false)" style="display: none">OK</button>
+        </div>
       </div>
-      <!-- /.modal -->
+      <!-- /.modal-content -->
     </div>
-    <!--<iframe id="viewpage" class="mainframe" src="./mainpage/mainpage.html"></iframe>-->
+    <!-- /.modal -->
+  </div>
+  <!--<iframe id="viewpage" class="mainframe" src="./mainpage/mainpage.html"></iframe>-->
 
-    <!--<button type="button" style="color: #16a085" class="btn btn-default">default</button>-->
+  <!--<button type="button" style="color: #16a085" class="btn btn-default">default</button>-->
 
-    <!-- page:主页 -->
-    <div id="mainpage" class="container mainview">
+  <!-- page:主页 -->
+  <div id="mainpage" class="container mainview" hidden>
 
-      <h2>mainpage</h2>
-      <p id="p"></p>
-      <button onclick="onBtnClick()" class="btn btn-default">click</button>
-      <p id="p2" style="color: red"></p>
-      <button onclick="onBtnClick2()" class="btn btn-default">click2</button>
-      <button onclick="onBtnClick4()" class="btn btn-default">click4</button>
-      <button onclick="onBtnClick5()" class="btn btn-default">click5</button>
-      <button onclick="clearall()" class="btn btn-default">clear</button>
-      <div id="content"></div>
-      <button onclick="onBtnClick3()" class="btn btn-default">click3</button>
-    </div>
-    <!-- page:列表 -->
-    <div id="listpage" class="mainview" hidden>
-      <button onclick="refreshModal();" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#configModal">New Config</button>
-      <button onclick="refreshConfigTable();" class="btn btn-primary btn-lg">Refresh</button>
-      <div>
-        <div id="toolbar">
-          <!--<button id="remove" class="btn btn-danger" disabled>
+    <h2>mainpage</h2>
+    <p id="p"></p>
+    <button onclick="onBtnClick()" class="btn btn-default">click</button>
+    <p id="p2" style="color: red"></p>
+    <button onclick="onBtnClick2()" class="btn btn-default">click2</button>
+    <button onclick="onBtnClick4()" class="btn btn-default">click4</button>
+    <button onclick="onBtnClick5()" class="btn btn-default">click5</button>
+    <button onclick="clearall()" class="btn btn-default">clear</button>
+    <div id="content"></div>
+    <button onclick="onBtnClick3()" class="btn btn-default">click3</button>
+  </div>
+  <!-- page:列表 -->
+  <div id="listpage" class="mainview" hidden>
+    <button onclick="refreshModal();" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#configModal">New Config</button>
+    <div>
+      <div id="toolbar">
+        <!--<button id="remove" class="btn btn-danger" disabled>
             <i class="glyphicon glyphicon-remove"></i> Delete
           </button>-->
-        </div>
-        <table id="configTable" 
-        data-classes="table table-hover"
-        data-show-pagination-switch="true"
-        data-page-size="10" 
-        data-pagination="true" 
-        data-show-refresh="true"
-        data-toolbar="#toolbar"
-        data-page-list="[10, 25, 50, 100, ALL]"
-        class="table table-striped"
+      </div>
+      <div id="refreshingConfigList" style="display: none" ><i class="icon-spinner icon-spin icon-2x pull-left" ></i>Refreshing</div>
+      <table id="configTable" data-classes="table table-hover" data-show-pagination-switch="true" data-page-size="10" data-pagination="true"
+        data-show-refresh="true" data-toolbar="#toolbar" data-page-list="[10, 25, 50, 100, ALL]" class="table table-striped"
         unselectable="false"></table>
-        <!--<div class="dropdown">
+      <!--<div class="dropdown">
           <button style="background-color: #f0f0f0;color: #888888" class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1"
               data-toggle="dropdown">
             <span class="caret"></span>
@@ -160,35 +158,27 @@
             <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Separated link</a></li>
           </ul>
         </div>-->
-      </div>
     </div>
-    <!-- page:检索 -->
-    <div id="searchpage" class="mainview" hidden>
-      <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#configModal" onclick="startSearch()">Advance Search</button>
-
-       <table id="resultTable" 
-        data-classes="table table-hover"
-        data-show-pagination-switch="true"
-        data-page-size="10" 
-        data-pagination="true" 
-        data-show-refresh="true"
-        data-page-list="[10, 25, 50, 100, ALL]"
-        class="table table-striped"
-        unselectable="false"
-        ></table>
-    </div>
-    <script src="./js/jquery-3.1.1.min.js"></script>
-    <script language="javascript">
-                       window.$ = window.jQuery = require('./js/vendor/jquery.min.js');
-    </script>
-    <script src="click.js"></script>
-    <script src="./js/flat-ui.js"></script>
-    <script src="./js/bootstrap-table.min.js"></script>
-    <script language="javascript" src="./js/index.js"></script>
-    <script src="./js/vendor/application.js"></script>
-    <script src="./js/vendor/respond.min.js"></script>
-    <script src="./js/vendor/bootstrap-tagsinput.js"></script>
-    <!--<script src="./js/flat-ui.js"></script>-->
-  </body>
+  </div>
+  <!-- page:检索 -->
+  <div id="searchpage" class="mainview" hidden>
+    <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#configModal" onclick="startSearch()">Advance Search</button>
+    <div id="searching" style="display: none" ><i class="icon-spinner icon-spin icon-2x pull-left" ></i>Searching</div>
+    <table id="resultTable" data-classes="table table-hover" data-show-pagination-switch="true" data-page-size="10" data-pagination="true"
+      data-show-refresh="true" data-page-list="[10, 25, 50, 100, ALL]" class="table table-striped" unselectable="false"></table>
+  </div>
+  <script src="./js/jquery-3.1.1.min.js"></script>
+  <script language="javascript">
+    window.$ = window.jQuery = require('./js/vendor/jquery.min.js');
+  </script>
+  <script src="click.js"></script>
+  <script src="./js/flat-ui.js"></script>
+  <script src="./js/bootstrap-table.min.js"></script>
+  <script language="javascript" src="./js/index.js"></script>
+  <script src="./js/vendor/application.js"></script>
+  <script src="./js/vendor/respond.min.js"></script>
+  <script src="./js/vendor/bootstrap-tagsinput.js"></script>
+  <!--<script src="./js/flat-ui.js"></script>-->
+</body>
 
 </html>

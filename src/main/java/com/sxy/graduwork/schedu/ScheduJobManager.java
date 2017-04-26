@@ -19,13 +19,25 @@ import org.quartz.UnableToInterruptJobException;
 import org.quartz.impl.StdSchedulerFactory;
 
 import com.google.gson.Gson;
+import com.sxy.graduwork.context.DatabaseServiceManager;
 import com.sxy.graduwork.po.SearchConfig;
-import com.sxy.graduwork.searchconfig.BasicSearchConfig;
+import com.sxy.graduwork.searchconfig.DatabaseResourceConfig;
 import com.sxy.graduwork.service.SearchConfigService;
 
 public class ScheduJobManager {
 
 	private SearchConfigService searchConfigService;
+	private DatabaseServiceManager databaseServiceManager;
+	private DatabaseResourceConfig databaseResourceConfig;
+
+	public void setDatabaseServiceManager(DatabaseServiceManager databaseServiceManager) {
+		this.databaseServiceManager = databaseServiceManager;
+	}
+
+	public void setDatabaseResourceConfig(DatabaseResourceConfig databaseResourceConfig) {
+		this.databaseResourceConfig = databaseResourceConfig;
+	}
+
 	private Gson gson = new Gson();
 
 	public void setSearchConfigService(SearchConfigService searchConfigService) {
@@ -65,7 +77,9 @@ public class ScheduJobManager {
 
 		// 定时任务的成员变量
 		JobDataMap dataMap = new JobDataMap();
-		dataMap.put("searchConfig", gson.fromJson(config.getConfigJson(), BasicSearchConfig.class));
+		dataMap.put("searchConfig", config);
+		dataMap.put("databaseServiceManager", databaseServiceManager);
+		dataMap.put("databaseResourceConfig", databaseResourceConfig);
 		// 定时任务设置
 		String searchJobID = "Job_" + config.getId();
 		String triggerID = "Trigger_" + config.getId();
@@ -198,12 +212,14 @@ public class ScheduJobManager {
 	public static String createCronExpression(String scheduPattern) {
 		StringBuffer resultBuffer = new StringBuffer();
 		// 设置开始时间为上午十点
-		resultBuffer.append("0 0 10 ");
+		String p = scheduPattern.substring(2);
+		String time = p.substring(p.indexOf('!') + 1, p.length());
+		resultBuffer.append("0 " + time + " ");
 		if (scheduPattern.startsWith("W:")) {
-			String weeks = scheduPattern.substring(2, scheduPattern.length());
+			String weeks = p.substring(0, p.indexOf('!'));
 			resultBuffer.append("? * " + weeks);
 		} else if (scheduPattern.startsWith("M:")) {
-			String dates = scheduPattern.substring(2, scheduPattern.length());
+			String dates = scheduPattern.substring(2, p.indexOf('!'));
 			resultBuffer.append(dates + " * ?");
 		}
 		return resultBuffer.toString();

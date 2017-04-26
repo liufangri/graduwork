@@ -118,11 +118,19 @@ span[class^=fui-]{
     float: left;
     padding-left: 16px;
 }
+.schedu-time-pick{
+    float: left;
+    padding-left: 16px;
+    height: 43px;
+}
+.schedu-time-pick select{
+    margin-top: 9px;
+}
 .schedu-check-group{
     border: 2px solid #f0f0f0;
     border-radius: 6px;
     float: left;
-    width: 100%;
+    width: 95.5%;;
 }
 .schedu-checkbox{
     float: left;

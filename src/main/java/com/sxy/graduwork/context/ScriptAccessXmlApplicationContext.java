@@ -114,7 +114,7 @@ public class ScriptAccessXmlApplicationContext extends FileSystemXmlApplicationC
 					socket = server.accept();
 					BufferedReader is = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 					message = is.readLine();
-					logger.info("System catches a message:" + message);
+					logger.debug("System catches a message:" + message);
 					RequestInfo ri = RequestParser.parseRequest(message);
 					TaskExecutor taskExecutor = (TaskExecutor) this.getBean("taskExecutor");
 					TaskController taskController = (TaskController) this.getBean("taskController");

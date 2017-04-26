@@ -19,7 +19,6 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.nodes.Node;
 import org.jsoup.select.Elements;
-import org.junit.Test;
 
 import com.sxy.graduwork.context.SystemParameters;
 import com.sxy.graduwork.dao.ArticleDao;
@@ -136,7 +135,11 @@ public class ACMService extends AbstractDatabaseService {
 		int articalNumRange = getNumRange(document);
 		// 根据总数来判断分页数目
 		int pageNum = articalNumRange / 20 + 1;
-		for (int i = 1; i <= 1; i++) {
+		if (pageNum >= 2) {
+			// TODO:条目数量过多
+			pageNum = 1;
+		}
+		for (int i = 1; i <= pageNum; i++) {
 			getEndnoteFilesByPage(i, filePathMap, fullTextURLMap, searchConfig);
 		}
 
@@ -262,11 +265,6 @@ public class ACMService extends AbstractDatabaseService {
 			// 在保存之前判断是否数据库已经存在这篇论文
 			if (!articleDao.isArticleAlreadyExist(doi)) {
 				// 保存到数据库里，下载enw文件
-				try {
-					Thread.sleep((int) Math.random() * 3000);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
 				HttpClientTool.saveContentOfUri(endnoteURI, filePath);
 				logger.info("Downloaded endnote export file: \"" + title + "\", file path: " + filePath);
 				fullTextURLMap.put(doi, pdfURL);
@@ -305,23 +303,4 @@ public class ACMService extends AbstractDatabaseService {
 		return later.substring(0, later.indexOf('.'));
 	}
 
-
-	// private String getID(String doi) {
-	// String later = doi.split("/")[1];
-	// return later.substring(later.indexOf(".") + 1, later.length());
-	// }
-
-	@Test
-	public void testExp() {
-		Map<String, Article> articleMap = new HashMap<>();
-		Article article1 = new Article();
-		article1.setEnwLocation("cache/8142E7CCC70B6955BCB0330DB6F95D8F.enw");
-		Article article2 = new Article();
-		article2.setEnwLocation("cache/818CE9D118E45EDB745388EFAF1D9EFC.enw");
-
-		articleMap.put("123", article1);
-		articleMap.put("1233", article2);
-		exportToEndnote(articleMap);
-
-	}
 }

@@ -10,6 +10,6 @@
 	<bean id="testService" class="com.sxy.graduwork.service.TestService" scope="singleton"></bean>
 	<bean id="indexService" class="com.sxy.graduwork.service.IndexService" scope="singleton"></bean>	
 	<bean id="acmService" class="com.sxy.graduwork.service.ACMService" scope="singleton"></bean>
-	<bean id="searchConfigService" class="com.sxy.graduwork.service.SearchConfigService" init-method="init" scope="singleton"></bean>
+	<bean id="searchConfigService" class="com.sxy.graduwork.service.SearchConfigService" scope="singleton"></bean>
 	<bean id="searchService" class="com.sxy.graduwork.service.SearchService" scope="singleton"></bean>
 </beans>

@@ -80,26 +80,57 @@ public abstract class AbstractDatabaseService {
 	public void exportToEndnote(Map<String, Article> articleMap) {
 		// 导入enw文件到Endnote, Endnote处于已经运行的状态，如果没有运行，会直接打开
 		Runtime runtime = Runtime.getRuntime();
+		PropertiesTool pt = new PropertiesTool();
+		String endnotePath = pt.getValue("endnote_location");
+		String classpath = pt.setPath("config/configuration").getValue("classpath");
+		File folder = new File(classpath);
+		String lock = "lock";
+		new Thread() {
+			@Override
+			public void run() {
+				synchronized (lock) {
+					try {
+						// Try to run endnote
+						logger.info("Trying to start EndNote.");
+						runtime.exec(new String[] { endnotePath + "EndNote.exe" }, null, folder);
+						Thread.sleep(15000);
+						logger.info("EndNote executed.");
+						lock.notifyAll();
+
+					} catch (IOException e1) {
+						e1.printStackTrace();
+						return;
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				}
+
+			}
+		}.start();
+
+		synchronized (lock) {
+			try {
+				lock.wait();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
 		for (Entry<String, Article> entry : articleMap.entrySet()) {
 			Article article = entry.getValue();
 			String path = article.getEnwLocation();
 			logger.info("Exporting file: " + path);
 			try {
-				PropertiesTool pt = new PropertiesTool();
-				String endnotePath = pt.getValue("endnote_location");
-				String classpath = pt.setPath("config/configuration").getValue("classpath");
-				File folder = new File(classpath);
 				Process process = runtime.exec(new String[] { endnotePath + "EndNote.exe", classpath + path }, null, folder);
 				process.waitFor();
 			} catch (IOException e) {
 				logger.error("Export failed.");
 				e.printStackTrace();
+				return;
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
+				return;
 			}
 		}
 	}
-
 
 }
