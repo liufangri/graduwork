@@ -86,6 +86,7 @@ public class ACMService extends AbstractDatabaseService {
 	public String getSearchResultPage(int page, BasicSearchConfig searchConfig) {
 		ACMSearchConfig acmSearchConfig = new ACMSearchConfig(searchConfig);
 		String queryStr = acmSearchConfig.toACMQueryString();
+		logger.info("ACM Query: " + queryStr);
 		String bfr = acmSearchConfig.getBfr();
 		String dte = acmSearchConfig.getDte();
 
@@ -105,6 +106,7 @@ public class ACMService extends AbstractDatabaseService {
 				builder.setParameter("start", String.valueOf(startPosition));
 			}
 			uri = builder.build();
+			logger.info("Search URL : " + uri.toString());
 			content = HttpClientTool.getContentStringByUri(uri);
 		} catch (URISyntaxException e) {
 			e.printStackTrace();
@@ -133,24 +135,37 @@ public class ACMService extends AbstractDatabaseService {
 		String searchResultContentHTML = this.getSearchResultPage(1, searchConfig);
 		Document document = Jsoup.parse(searchResultContentHTML);
 		int articalNumRange = getNumRange(document);
+		logger.info("Search result count : " + articalNumRange);
 		// 根据总数来判断分页数目
 		int pageNum = articalNumRange / 20 + 1;
-		if (pageNum >= 2) {
+		logger.info("Page size: " + pageNum);
+		if (pageNum >= 5) {
 			// TODO:条目数量过多
 			pageNum = 1;
 		}
 		for (int i = 1; i <= pageNum; i++) {
+			logger.info("Get results from: P" + i);
 			getEndnoteFilesByPage(i, filePathMap, fullTextURLMap, searchConfig);
+			try {
+				// 休眠一段时间再继续检索
+				Thread.sleep(1 * 60 * 1000);
+			} catch (InterruptedException e) {
+
+			}
+			if (pageNum % 5 == 0) {
+				// TODO：每检索5页就停止一段时间，询问是否继续检索
+				try {
+					// 休眠一段时间再继续检索
+					Thread.sleep(10 * 60 * 1000);
+				} catch (InterruptedException e) {
+
+				}
+			}
 		}
 
 		return filePathMap;
 	}
 
-	@Override
-	public Map<String, String> getFullTextURLMap() {
-
-		return null;
-	}
 
 	/**
 	 * 获取该页面的所有论文页面URL
@@ -204,7 +219,7 @@ public class ACMService extends AbstractDatabaseService {
 		this.getCitationURL(citationURLList, document);
 		for (String urlPath : citationURLList) {
 			if (!addFileAndURLFromCitationURL(urlPath, filePathMap, fullTextURLMap)) {
-				return false;
+				continue;
 			}
 		}
 		return true;
@@ -228,10 +243,11 @@ public class ACMService extends AbstractDatabaseService {
 		try {
 			uri = builder.build();
 			try {
-				Thread.sleep((int) Math.random() * 3000);
+				Thread.sleep((int) (Math.random() * 15000));
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
+			logger.info("Get citation from " + uri);
 			String citationHTML = HttpClientTool.getContentStringByUri(uri);
 			Article article = new Article();
 

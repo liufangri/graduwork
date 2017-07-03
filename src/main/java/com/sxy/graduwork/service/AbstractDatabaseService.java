@@ -67,24 +67,18 @@ public abstract class AbstractDatabaseService {
 	 */
 	public abstract Map<String, Article> getSearchResultArticleMap(BasicSearchConfig searchConfig);
 
-	/**
-	 * Get a full-text download link from a database site.
-	 * 
-	 * @return URL string
-	 */
-	public abstract Map<String, String> getFullTextURLMap();
 
 	/**
 	 * Import .enw file into endnote
 	 */
 	public void exportToEndnote(Map<String, Article> articleMap) {
 		// 导入enw文件到Endnote, Endnote处于已经运行的状态，如果没有运行，会直接打开
-		Runtime runtime = Runtime.getRuntime();
+		final Runtime runtime = Runtime.getRuntime();
 		PropertiesTool pt = new PropertiesTool();
-		String endnotePath = pt.getValue("endnote_location");
+		final String endnotePath = pt.getValue("endnote_location");
 		String classpath = pt.setPath("config/configuration").getValue("classpath");
-		File folder = new File(classpath);
-		String lock = "lock";
+		final File folder = new File(classpath);
+		final String lock = "lock";
 		new Thread() {
 			@Override
 			public void run() {

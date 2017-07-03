@@ -38,6 +38,7 @@ public class ScheduJobManager {
 		this.databaseResourceConfig = databaseResourceConfig;
 	}
 
+	@SuppressWarnings("unused")
 	private Gson gson = new Gson();
 
 	public void setSearchConfigService(SearchConfigService searchConfigService) {
@@ -219,7 +220,7 @@ public class ScheduJobManager {
 			String weeks = p.substring(0, p.indexOf('!'));
 			resultBuffer.append("? * " + weeks);
 		} else if (scheduPattern.startsWith("M:")) {
-			String dates = scheduPattern.substring(2, p.indexOf('!'));
+			String dates = p.substring(0, p.indexOf('!'));
 			resultBuffer.append(dates + " * ?");
 		}
 		return resultBuffer.toString();

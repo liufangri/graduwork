@@ -26,9 +26,9 @@ function init() {
     //激活窗体
     $('#list').click();
     //更新配置列表
-    $('#configTable').on('refresh.bs.table',(e)=>{
+    $('#configTable').on('refresh.bs.table', (e) => {
         refreshConfigTable();
-    } )
+    })
 
     $('label.radio').on('click', (e) => {
         var type = e.currentTarget.getAttribute('data-schedu');
@@ -205,7 +205,7 @@ function createSearchConfigJSON(schedu) {
             var select1Value = $("#select1_" + i).val();
             if (select1Value == 'Publication year') {
                 //日期
-                data.bfr = $("#brf").val();
+                data.bfr = $("#bfr").val();
                 data.dte = $("#dte").val();
             } else {
                 var select2Value = $("#select2_" + i).val();
@@ -219,14 +219,14 @@ function createSearchConfigJSON(schedu) {
     var jsonStr = JSON.stringify(data);
     var databaseListStr = $("#tagsinput").val();
     if (databaseListStr == "") {
-        return alert('Must choose at least one database');
+        return alert('Schedule invalid');
     }
 
     //if true, add to search config
     if (schedu) {
         var scheduPattern = getScheduPattern();
         if (scheduPattern == 'E') {
-            return alert('Must create a schedu pattern');
+            return alert('Must create a schedule pattern');
         }
         c.call('method',
             {
@@ -265,7 +265,7 @@ function createSearchConfigJSON(schedu) {
                 $('#searching').hide();
                 var result = JSON.parse(data.toString());
                 var dataList = new Array();
-                
+
                 //结果列表更新
                 var j = 0;
                 for (var i in result) {
@@ -344,10 +344,10 @@ function getScheduPattern() {
         }
     } else {
         pattern += 'M:';
-        for (var i = 1; i <= 3; i++) {
+        for (var i = 1; i <= 2; i++) {
             if (document.getElementById('month_' + i).checked) {
                 checked = true;
-                pattern += (i == 1 ? '1' : (i == 2 ? '15' : (i == 3 ? 'L' : ''))) + ',';
+                pattern += (i == 1 ? '1' : (i == 2 ? '15' : '')) + ',';
             }
         }
         if (pattern.endsWith(',')) {
@@ -367,7 +367,7 @@ function years1Change(year1Value, index) {
     if (select3Value == 'btw') {
         var year1 = $("#dte").val();
         if (year1 < year1Value) {
-            $("#dte").val(year1);
+            $("#dte").val(year1Value);
         }
     } else if (select3Value == '=') {
         $("#dte").val(year1Value);
@@ -391,6 +391,7 @@ function refreshModal() {
     pre_selects.attr("data-next-index", "1");
     var origin = createFilter(0);
     $("#selects").append(origin);
+    hasDate = false;
     initSearchGroup(0);
     //schedu设置置为初始
     for (var i = 1; i <= 7; i++) {
@@ -468,7 +469,7 @@ function refreshConfigTable() {
                     num: i + 1,
                     time: dataList[i].createTime,
                     schedu: dataList[i].schedulePattern,
-                    config: dataList[i].configJson,
+                    config: parseConfigJSON(dataList[i].configJson),
                     checkedDatabase: dataList[i].checkedDatabase,
                     id: dataList[i].id
                 }
@@ -490,7 +491,7 @@ function refreshConfigTable() {
                     },
                     {
                         field: 'schedu',
-                        title: 'Schedu',
+                        title: 'Schedule',
                         align: 'center',
                         valign: 'middle'
                     },
@@ -521,6 +522,33 @@ function refreshConfigTable() {
         });
 
 }
+
+function parseConfigJSON(data) {
+    data = JSON.parse(data);
+    var result = "";
+    for (var i in data) {
+        if (i != "dte" && i != "bfr") {
+            var str = "";
+            for (var j in data[i]) {
+                str += data[i][j].match + " " + data[i][j].value + "<br/>";
+            }
+            result += data[i] == null || data[i] == "" ? "" : i + " : " + str + " ";
+        }
+
+    }
+    if ((data.bfr == null || data.bfr == "")) {
+        if (data.dte != "1947") {
+            result += "Publication Date : After " + data.dte;
+
+        } else {
+            result += "Publication Date : After 1947";
+        }
+    } else {
+        result += "Publication Date : After " + data.dte + " , Before " + data.bfr + " ";
+    }
+    return result;
+}
+
 
 function initAvaliableDatabaseList() {
     var file = fs.readFileSync('./DBConfigs/DB.json');

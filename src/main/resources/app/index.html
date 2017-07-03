@@ -19,7 +19,7 @@
         <li id="main" hidden><a><span class="fui-home"></span>MAIN</a></li>
         <li id="list"><a><span class="fui-list-columned"></span>LIST</a></li>
         <li id="search"><a><span class="fui-search"></span>SEARCH</a></li>
-        <li id="other"><a><span class="fui-info-circle"></span>...</a></li>
+        <li id="about"><a><span class="fui-info-circle"></span>ABOUT</a></li>
       </ul>
     </div>
   </div>
@@ -53,7 +53,7 @@
         </div>
 
         <div id="modal_schedu" class="modal-body" style="border-top: 1px solid #e5e5e5">
-          <b id="pre_selects" data-next-index="0">Schedu Setting:</b>
+          <b id="pre_selects" data-next-index="0">Schedule Setting:</b>
           <div>
             <div class="schedu-radio-group">
               <label class="radio" data-schedu="week">
@@ -83,7 +83,7 @@
             <div id="month_check" class="schedu-check-group" style="display: none">
               <label class="checkbox primary schedu-checkbox"><input data-checkbox-type="month" data-toggle="radio" type="checkbox" id="month_1" value="month_1"/>First day of the month</label>
               <label class="checkbox primary schedu-checkbox"><input data-checkbox-type="month" data-toggle="radio" type="checkbox" id="month_2" value="month_2"/>Middle of the month</label>
-              <label class="checkbox primary schedu-checkbox"><input data-checkbox-type="month" data-toggle="radio" type="checkbox" id="month_3" value="month_3"/>Last day of the month</label>
+              <!--<label class="checkbox primary schedu-checkbox"><input data-checkbox-type="month" data-toggle="radio" type="checkbox" id="month_3" value="month_3"/>Last day of the month</label>-->
             </div>
             <!--<input type="radio" name="week" value="Week"><input type="radio" name="month" value="Month" >-->
             <div style="clear: both"></div>
@@ -166,6 +166,11 @@
     <div id="searching" style="display: none" ><i class="icon-spinner icon-spin icon-2x pull-left" ></i>Searching</div>
     <table id="resultTable" data-classes="table table-hover" data-show-pagination-switch="true" data-page-size="10" data-pagination="true"
       data-show-refresh="true" data-page-list="[10, 25, 50, 100, ALL]" class="table table-striped" unselectable="false"></table>
+  </div>
+  <div id="aboutpage" class="mainview" hidden>
+  <div style="width: 100%; height: 100%">
+      <b style="position:relative;" >This desktop tool front page is based on Electron, created by SUN xiaoyu.</b>
+  </div>
   </div>
   <script src="./js/jquery-3.1.1.min.js"></script>
   <script language="javascript">

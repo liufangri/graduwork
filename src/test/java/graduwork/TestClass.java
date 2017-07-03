@@ -11,7 +11,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.junit.Test;
 import org.quartz.JobBuilder;
 import org.quartz.JobDataMap;
 import org.quartz.JobDetail;
@@ -103,6 +102,7 @@ public class TestClass {
 		InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream(SystemParameters.DEFAULT_DB_CONFIG_PATH);
 		Reader reader = new InputStreamReader(inputStream);
 		Gson gson = new Gson();
+		@SuppressWarnings("rawtypes")
 		List dbList = gson.fromJson(reader, List.class);
 		System.out.println(dbList);
 
@@ -116,6 +116,7 @@ public class TestClass {
 	}
 
 	public void testExtents() {
+		@SuppressWarnings("unused")
 		TestA a = new TestA();
 
 	}
@@ -161,7 +162,7 @@ public class TestClass {
 	}
 
 	public void testMulty() {
-		String lock = "1";
+		final String lock = "1";
 		Thread thread1 = new Thread(new Runnable() {
 
 			@Override
@@ -218,7 +219,7 @@ public class TestClass {
 		}
 	}
 
-	@Test
+	// @Test
 	public void testSubstr() {
 		String str = "W:4|12 0";
 		System.out.println(str.indexOf('|'));

@@ -19,6 +19,7 @@ public class SearchService {
 	private DatabaseResourceConfig databaseResourceConfig;
 	private SearchConfigService searchConfigService;
 
+	@SuppressWarnings("unused")
 	private static Log logger = LogFactory.getLog(SearchService.class);
 	private static Gson gson = new Gson();
 

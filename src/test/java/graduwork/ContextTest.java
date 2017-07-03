@@ -1,11 +1,9 @@
 package graduwork;
 
-import org.junit.Test;
-
 import com.sxy.graduwork.context.ScriptAccessXmlApplicationContext;
 
 public class ContextTest {
-	@Test
+	// @Test
 	public void testContextInit() {
 		long t1 = System.currentTimeMillis();
 		ScriptAccessXmlApplicationContext context = new ScriptAccessXmlApplicationContext("classpath:spring/*");

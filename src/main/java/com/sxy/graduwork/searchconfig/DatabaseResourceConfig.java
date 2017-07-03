@@ -34,6 +34,7 @@ public class DatabaseResourceConfig {
 	/**
 	 * Initial an object based on db.json
 	 */
+	@SuppressWarnings("unchecked")
 	public void init() {
 		if (dbrMap != null) {
 			dbrMap.clear();

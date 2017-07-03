@@ -7,6 +7,7 @@ var PORT = props.current_port
 
 calljavamethod.call = function (kind, data, method, error) {
     var client = new net.Socket()
+    client.setKeepAlive(true)
     var result = 'Failed'
     client.connect(PORT, HOST, () => {
         if (kind == 'method') {

@@ -27,7 +27,6 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import org.junit.Test;
 
 import com.google.gson.Gson;
 
@@ -35,6 +34,7 @@ public class NetTest {
 	String CFID;
 	String CFTOKEN;
 
+	@SuppressWarnings("unchecked")
 	public void testJSONConfic() {
 		Gson gson = new Gson();
 		List<Map<String, String>> jsonList = new ArrayList<Map<String, String>>();
@@ -53,6 +53,7 @@ public class NetTest {
 			for (Map<String, String> map : jsonList) {
 				System.out.println(map);
 			}
+			reader2.close();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -62,7 +63,7 @@ public class NetTest {
 		jsonList = gson.fromJson(json, List.class);
 	}
 
-	@Test
+	// @Test
 	public void testConnection() {
 		URI uri;
 		try {
@@ -95,7 +96,7 @@ public class NetTest {
 							"Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36");
 					response = httpClient.execute(httpGet2);
 					entity = response.getEntity();
-					String htmlContent2 = saveHtml(entity, "C:\\Users\\sxy90\\Desktop\\AMCSearch.html");
+					saveHtml(entity, "C:\\Users\\sxy90\\Desktop\\AMCSearch.html");
 
 				}
 
@@ -109,7 +110,7 @@ public class NetTest {
 			httpGet2.setHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36");
 			response = httpClient.execute(httpGet2);
 			entity = response.getEntity();
-			String htmlContent2 = saveHtml(entity, "C:\\Users\\sxy90\\Desktop\\ACMResult.html");
+			saveHtml(entity, "C:\\Users\\sxy90\\Desktop\\ACMResult.html");
 
 			response.close();
 
